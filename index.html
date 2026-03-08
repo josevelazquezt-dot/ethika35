@@ -6,22 +6,24 @@
     <title>Ethika35 - Canal de Denuncias Independiente y Anónimo</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Paleta de Colores Ethika35 (Seguridad, Confianza y Privacidad) */
+        /* Paleta de Colores Ethika35 "ALEGRE" (Transparencia, Confianza y Luz) */
         :root {
-            --ethika-dark: #1B262C;      /* Fondo principal oscuro */
-            --ethika-green: #0F9D58;     /* Verde seguridad */
-            --ethika-light: #F4F6F7;     /* Gris muy claro para contrastes */
-            --ethika-gold: #D4AF37;      /* Dorado para acentos institucionales */
-            --text-white: #FFFFFF;
-            --text-gray: #B0BEC5;
+            /* NUEVOS COLORES CLAROS Y VIBRANTES */
+            --ethika-primary: #FFFFFF;      /* Fondo principal brillante */
+            --ethika-green-bright: #00D09C; /* Verde vibrante del logo (ALEGRE) */
+            --ethika-green-hover: #00A37A;  /* Tono más oscuro para hovers */
+            --ethika-text-main: #1A202C;    /* Texto principal oscuro para legibilidad */
+            --ethika-text-gray: #718096;    /* Texto secundario claro */
+            --ethika-light-bg: #F0FDF4;     /* Fondo suave para secciones */
+            --ethika-gold: #F59E0B;         /* Dorado para acentos institucionales */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            color: var(--ethika-dark);
-            background-color: var(--ethika-light);
+            color: var(--ethika-text-main);
+            background-color: var(--ethika-primary);
             line-height: 1.7;
         }
 
@@ -34,30 +36,32 @@
             padding: 0 20px;
         }
 
+        /* --- Estilo de Botón Alegre --- */
         .btn-primary {
             display: inline-block;
-            background-color: var(--ethika-green);
-            color: var(--text-white);
+            background-color: var(--ethika-green-bright);
+            color: #FFFFFF;
             padding: 14px 30px;
             text-decoration: none;
             border-radius: 4px;
             font-weight: 700;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(15, 157, 88, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 208, 156, 0.3);
             text-align: center;
         }
 
         .btn-primary:hover {
-            background-color: #0B7A44;
+            background-color: var(--ethika-green-hover);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 208, 156, 0.4);
         }
 
-        /* --- NUEVO ESTILO: BOTÓN DE CONTORNO (Para el Hero) --- */
+        /* --- Botón Outline para Hero --- */
         .btn-outline {
             display: inline-block;
             background-color: transparent;
-            color: var(--ethika-green);
-            border: 2px solid var(--ethika-green);
+            color: var(--ethika-green-bright);
+            border: 2px solid var(--ethika-green-bright);
             padding: 12px 28px;
             text-decoration: none;
             border-radius: 4px;
@@ -66,18 +70,18 @@
         }
 
         .btn-outline:hover {
-            background-color: var(--ethika-green);
-            color: var(--text-white);
+            background-color: rgba(0, 208, 156, 0.05);
+            transform: translateY(-2px);
         }
 
-        /* --- Header --- */
+        /* --- Header Brillante --- */
         header {
-            background-color: var(--ethika-dark);
+            background-color: rgba(255, 255, 255, 0.98);
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .header-content {
@@ -86,10 +90,10 @@
             align-items: center;
         }
 
-        .logo-img { height: 45px; filter: brightness(0) invert(1); }
+        .logo-img { height: 45px; }
 
         .nav-links a {
-            color: var(--text-white);
+            color: var(--ethika-text-main);
             text-decoration: none;
             margin-left: 20px;
             font-size: 0.9rem;
@@ -97,36 +101,36 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover { color: var(--ethika-green); }
+        .nav-links a:hover { color: var(--ethika-green-bright); }
 
-        /* --- Hero Section --- */
+        /* --- Hero Section Alegre --- */
         .hero {
-            background-color: var(--ethika-dark);
-            color: var(--text-white);
-            padding: 100px 0;
+            background-color: var(--ethika-light-bg);
+            color: var(--ethika-text-main);
+            padding: 120px 0;
             text-align: center;
-            border-bottom: 5px solid var(--ethika-green);
+            border-bottom: 2px solid rgba(0, 208, 156, 0.1);
         }
 
         .hero h1 {
             font-size: 3rem;
             margin-bottom: 25px;
             line-height: 1.2;
-            color: var(--text-white);
+            color: var(--ethika-text-main);
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             max-width: 800px;
             margin: 0 auto 40px;
-            color: var(--text-gray);
+            color: var(--ethika-text-gray);
             font-weight: 300;
         }
 
-        /* --- Nuestra Misión (Escudo) --- */
+        /* --- Nuestra Misión Brillante --- */
         .mission {
-            padding: 80px 0;
-            background-color: var(--text-white);
+            padding: 100px 0;
+            background-color: var(--ethika-primary);
         }
 
         .mission-grid {
@@ -137,17 +141,17 @@
         }
 
         .mission-text h2 {
-            font-size: 2.2rem;
-            color: var(--ethika-dark);
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: var(--ethika-text-main);
+            margin-bottom: 25px;
             position: relative;
         }
         
         .mission-text h2::after {
             content: '';
             display: block;
-            width: 60px;
-            height: 3px;
+            width: 80px;
+            height: 4px;
             background-color: var(--ethika-gold);
             margin-top: 15px;
         }
@@ -155,15 +159,28 @@
         .mission-text p {
             font-size: 1.1rem;
             margin-bottom: 20px;
-            color: #455A64;
+            color: #4A5568;
         }
 
         .shield-box {
-            background-color: var(--ethika-light);
-            padding: 40px;
-            border-radius: 8px;
-            border-left: 5px solid var(--ethika-green);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background-color: #FFFFFF;
+            padding: 50px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 208, 156, 0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            position: relative;
+        }
+        
+        /* Efecto de borde vibrante lateral */
+        .shield-box::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background-color: var(--ethika-green-bright);
+            border-radius: 12px 0 0 12px;
         }
 
         .shield-box ul {
@@ -171,67 +188,71 @@
         }
 
         .shield-box ul li {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             font-size: 1.05rem;
             display: flex;
             align-items: flex-start;
         }
 
         .shield-box ul li::before {
-            content: "🔒";
+            content: "🛡️";
             margin-right: 15px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
-        /* --- Impacto y Cultura --- */
+        /* --- Impacto y Cultura Alegre --- */
         .impact {
-            padding: 80px 0;
-            background-color: var(--ethika-dark);
-            color: var(--text-white);
+            padding: 100px 0;
+            background-color: #FAFBFC;
+            border-top: 1px solid rgba(0, 208, 156, 0.05);
             text-align: center;
         }
 
         .impact h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            color: var(--text-white);
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: var(--ethika-text-main);
         }
 
         .impact p {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             max-width: 800px;
-            margin: 0 auto 40px;
-            color: var(--text-gray);
+            margin: 0 auto 45px;
+            color: var(--ethika-text-gray);
         }
 
         .integration-badge {
             display: inline-block;
-            background-color: rgba(255,255,255,0.1);
-            padding: 10px 25px;
+            background-color: #FFFFFF;
+            color: var(--ethika-text-main);
+            padding: 12px 30px;
             border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(0, 208, 156, 0.2);
             font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
         .integration-badge strong {
-            color: var(--ethika-green);
+            color: var(--ethika-green-bright);
         }
 
-        /* --- Footer --- */
+        /* --- Footer Claro --- */
         footer {
-            background-color: #11181C;
-            color: #78909C;
+            background-color: #F7FAFC;
+            color: var(--ethika-text-gray);
             text-align: center;
-            padding: 40px 0;
+            padding: 60px 0;
             font-size: 0.9rem;
+            border-top: 1px solid rgba(0,0,0,0.03);
         }
 
-        .footer-logo img { height: 40px; opacity: 0.5; margin-bottom: 20px; }
+        .footer-logo img { height: 40px; opacity: 0.8; margin-bottom: 25px; }
 
         @media (max-width: 768px) {
-            .mission-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2rem; }
+            .mission-grid { grid-template-columns: 1fr; gap: 30px; }
+            .hero h1 { font-size: 2.3rem; }
             .nav-links { display: none; }
+            .shield-box { padding: 30px; }
         }
     </style>
 </head>
@@ -239,11 +260,11 @@
 
     <header>
         <div class="container header-content">
-            <img src="/pictures/logo_ethika35.png" alt="Ethika35 Logo" class="logo-img">
+            <img src="pictures/logo_ethika35.png" alt="Ethika35 Logo" class="logo-img">
             <div class="nav-links">
-                <a href="faq.html">Preguntas Frecuentes</a>
+                <a href="/faq.html">Preguntas Frecuentes</a>
                 <a href="mailto:hola@konfidente.com">Contacto</a>
-                <a href="https://wa.me/523328080083" class="btn-primary" style="padding: 8px 20px; margin-left: 20px;">Hacer un Reporte</a>
+                <a href="https://wa.me/523328080083" class="btn-primary" style="padding: 10px 25px; margin-left: 20px;">Hacer un Reporte</a>
             </div>
         </div>
     </header>
@@ -253,9 +274,8 @@
             <h1>Transparencia Corporativa.<br>Cero Conflictos de Interés.</h1>
             <p>Un canal robusto y completamente independiente para reportar conductas poco éticas o ilegales. Protegemos a tu empresa y a tu gente con el más alto estándar de confidencialidad.</p>
             <a href="https://wa.me/523328080083" class="btn-primary">Iniciar Reporte Confidencial</a>
-            
             <br><br>
-            <a href="faq.html" class="btn-outline">¿Cómo funciona? Ver Preguntas Frecuentes</a>
+            <a href="/faq.html" class="btn-outline">¿Cómo funciona? Ver Preguntas Frecuentes</a>
         </div>
     </section>
 
@@ -268,7 +288,7 @@
             </div>
             
             <div class="shield-box">
-                <h3 style="margin-bottom: 20px; color: var(--ethika-dark);">El Respaldo de Especialistas</h3>
+                <h3 style="margin-bottom: 25px; color: var(--ethika-text-main);">El Respaldo de Especialistas</h3>
                 <ul>
                     <li><strong>Gestión Independiente:</strong> Operado por el equipo de especialistas de <strong>BAHUMANA</strong>.</li>
                     <li><strong>Máxima Discreción:</strong> Cada reporte es manejado con rigor y profesionalismo desde su recepción.</li>
@@ -293,12 +313,11 @@
     <footer>
         <div class="container">
             <div class="footer-logo">
-                <img src="/pictures/logo_ethika35.png" alt="Ethika35 Logo">
+                <img src="pictures/logo_ethika35.png" alt="Ethika35 Logo">
             </div>
-            
             <p>
-                <a href="faq.html" style="color: var(--text-gray); text-decoration: underline;">Preguntas Frecuentes</a> | 
-                <a href="mailto:hola@konfidente.com" style="color: var(--text-gray); text-decoration: underline;">hola@konfidente.com</a>
+                <a href="/faq.html" style="color: var(--ethika-green-bright); text-decoration: underline;">Preguntas Frecuentes</a> | 
+                <a href="mailto:hola@konfidente.com" style="color: var(--ethika-text-gray);">hola@konfidente.com</a>
             </p>
             <br>
             <p>&copy; 2026 Konfidente Workforce Suite - Ethika35. Todos los derechos reservados.</p>
