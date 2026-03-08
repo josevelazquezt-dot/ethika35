@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - Ethika35</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Paleta de Colores Institucional Ethika35 */
+        :root {
+            --ethika-dark: #1B262C;
+            --ethika-green: #0F9D58;
+            --ethika-light: #F4F6F7;
+            --ethika-gold: #D4AF37;
+            --text-white: #FFFFFF;
+            --text-gray: #B0BEC5;
+            --text-dark: #2C3E50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ethika-dark);
+            background-color: var(--ethika-light);
+            line-height: 1.7;
+        }
+
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--ethika-green);
+            color: var(--text-white);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0B7A44;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--ethika-dark);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img { height: 45px; filter: brightness(0) invert(1); }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--ethika-green); }
+
+        /* --- Hero FAQ --- */
+        .hero-faq {
+            background-color: var(--ethika-dark);
+            color: var(--text-white);
+            padding: 60px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--ethika-green);
+        }
+
+        .hero-faq h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hero-faq p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- FAQ Section --- */
+        .faq-section {
+            padding: 60px 0;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .faq-card {
+            display: flex;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border-left: 5px solid var(--ethika-green);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .faq-image-container {
+            width: 250px;
+            flex-shrink: 0;
+            background-color: #E8ECEF; /* Color de fondo mientras cargan las imágenes */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .faq-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Etiqueta de marcador de posición (se ocultará cuando haya imagen) */
+        .placeholder-text {
+            position: absolute;
+            color: #90A4AE;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .faq-content {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .faq-content h3 {
+            color: var(--ethika-dark);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .faq-content p {
+            color: #455A64;
+            margin-bottom: 15px;
+        }
+
+        .faq-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-content strong {
+            color: var(--ethika-dark);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #11181C;
+            color: #78909C;
