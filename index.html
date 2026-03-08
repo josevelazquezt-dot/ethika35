@@ -153,4 +153,154 @@
 
         .mission-text p {
             font-size: 1.1rem;
-            margin-bottom: 20
+            margin-bottom: 20px;
+            color: #455A64;
+        }
+
+        .shield-box {
+            background-color: var(--ethika-light);
+            padding: 40px;
+            border-radius: 8px;
+            border-left: 5px solid var(--ethika-green);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .shield-box ul {
+            list-style: none;
+        }
+
+        .shield-box ul li {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .shield-box ul li::before {
+            content: "🔒";
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* --- Impacto y Cultura --- */
+        .impact {
+            padding: 80px 0;
+            background-color: var(--ethika-dark);
+            color: var(--text-white);
+            text-align: center;
+        }
+
+        .impact h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--text-white);
+        }
+
+        .impact p {
+            font-size: 1.15rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--text-gray);
+        }
+
+        .integration-badge {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.1);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-weight: 500;
+        }
+
+        .integration-badge strong {
+            color: var(--ethika-green);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #11181C;
+            color: #78909C;
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.9rem;
+        }
+
+        .footer-logo img { height: 40px; opacity: 0.5; margin-bottom: 20px; }
+
+        @media (max-width: 768px) {
+            .mission-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <img src="pictures/logo_ethika35.png" alt="Ethika35 Logo" class="logo-img">
+            <div class="nav-links">
+                <a href="faq.html">Preguntas Frecuentes</a>
+                <a href="mailto:hola@konfidente.com">Contacto</a>
+                <a href="https://wa.me/523328080083" class="btn-primary" style="padding: 8px 20px; margin-left: 20px;">Hacer un Reporte</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Transparencia Corporativa.<br>Cero Conflictos de Interés.</h1>
+            <p>Un canal robusto y completamente independiente para reportar conductas poco éticas o ilegales. Protegemos a tu empresa y a tu gente con el más alto estándar de confidencialidad.</p>
+            <a href="https://wa.me/523328080083" class="btn-primary">Iniciar Reporte Confidencial</a>
+            <br><br>
+            <a href="faq.html" class="btn-outline">¿Cómo funciona? Ver Preguntas Frecuentes</a>
+        </div>
+    </section>
+
+    <section class="mission">
+        <div class="container mission-grid">
+            <div class="mission-text">
+                <h2>Nuestra Misión</h2>
+                <p>Proveer un canal robusto y completamente independiente para reportar conductas poco éticas, ilegales o inconsistentes con los estándares profesionales de tu organización.</p>
+                <p>Garantizamos <strong>total anonimato</strong> (donde la ley lo permita). Nuestro sistema está diseñado para proteger la identidad del informante: sin identificador de llamadas, sin rastreo de IPs y sin grabaciones de voz no autorizadas.</p>
+            </div>
+            
+            <div class="shield-box">
+                <h3 style="margin-bottom: 20px; color: var(--ethika-dark);">El Respaldo de Especialistas</h3>
+                <ul>
+                    <li><strong>Gestión Independiente:</strong> Operado por el equipo de especialistas de <strong>BAHUMANA</strong>.</li>
+                    <li><strong>Máxima Discreción:</strong> Cada reporte es manejado con rigor y profesionalismo desde su recepción.</li>
+                    <li><strong>Escalación Directa:</strong> Reportes filtrados y entregados directamente al Consejo de Administración.</li>
+                    <li><strong>Imparcialidad Absoluta:</strong> Garantizamos un proceso libre de conflictos de interés internos.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="impact">
+        <div class="container">
+            <h2>Impacto y Cultura Organizacional</h2>
+            <p>No solo recibimos reportes; transformamos datos en estrategias. Realizamos análisis profundos para medir el efecto de tus prácticas empresariales en el clima laboral, el bienestar y la adhesión a los principios éticos.</p>
+            
+            <div class="integration-badge">
+                Integración nativa con <strong>Pulso35</strong> para optimizar operaciones y fortalecer una cultura de respeto.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="pictures/logo_ethika35.png" alt="Ethika35 Logo">
+            </div>
+            <p>
+                <a href="faq.html" style="color: var(--text-gray); text-decoration: underline;">Preguntas Frecuentes</a> | 
+                <a href="mailto:hola@konfidente.com" style="color: var(--text-gray); text-decoration: underline;">hola@konfidente.com</a>
+            </p>
+            <br>
+            <p>&copy; 2026 Konfidente Workforce Suite - Ethika35. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
