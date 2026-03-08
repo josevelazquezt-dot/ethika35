@@ -3,488 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konfidente - Workforce Suite - Cumplimiento Ético NOM-035</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Ethika35 - Canal de Denuncias Independiente y Anónimo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos Globales */
+        /* Paleta de Colores Ethika35 (Seguridad, Confianza y Privacidad) */
         :root {
-            --konfidente-blue: #0056D2;
-            --konfidente-green: #2ECC71;
-            --konfidente-magenta: #C2185B;
-            --konfidente-orange: #F39C12;
-            --text-dark: #2C3E50;
-            --text-light: #F8F9FA;
-            --bg-light: #FFFFFF;
-            --bg-grey: #F1F3F5;
+            --ethika-dark: #1B262C;      /* Fondo principal oscuro */
+            --ethika-green: #0F9D58;     /* Verde seguridad */
+            --ethika-light: #F4F6F7;     /* Gris muy claro para contrastes */
+            --ethika-gold: #D4AF37;      /* Dorado para acentos institucionales */
+            --text-white: #FFFFFF;
+            --text-gray: #B0BEC5;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-            line-height: 1.6;
-            overflow-x: hidden;
+            color: var(--ethika-dark);
+            background-color: var(--ethika-light);
+            line-height: 1.7;
         }
 
-        /* Utilidades */
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        
         .container {
-            width: 100%;
-            max-width: 1200px;
+            width: 90%;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        .btn {
+        .btn-primary {
             display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--konfidente-blue);
-            color: var(--text-light);
-            border-radius: 50px;
+            background-color: var(--ethika-green);
+            color: var(--text-white);
+            padding: 14px 30px;
+            text-decoration: none;
+            border-radius: 4px;
             font-weight: 700;
-            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 86, 210, 0.3);
-        }
-
-        .btn:hover {
-            background-color: #0044A5;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 86, 210, 0.4);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
+            box-shadow: 0 4px 15px rgba(15, 157, 88, 0.3);
             text-align: center;
-            margin-bottom: 60px;
-            position: relative;
         }
 
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background-color: var(--konfidente-green);
-            margin: 10px auto 0;
-            border-radius: 2px;
+        .btn-primary:hover {
+            background-color: #0B7A44;
+            transform: translateY(-2px);
         }
 
-        /* --- Header & Nav --- */
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--ethika-green);
+            border: 2px solid var(--ethika-green);
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--ethika-green);
+            color: var(--text-white);
+        }
+
+        /* --- Header --- */
         header {
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: var(--ethika-dark);
             padding: 15px 0;
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            backdrop-filter: blur(5px);
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
-        .nav-container {
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo-main img {
-            height: 50px;
+        .logo-img { height: 45px; filter: brightness(0) invert(1); /* Hace el logo blanco si es oscuro */ }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            font-weight: 600;
-        }
-
-        .nav-links a:hover {
-            color: var(--konfidente-blue);
-        }
-
-        .cta-header {
-            background-color: var(--konfidente-green);
-        }
+        .nav-links a:hover { color: var(--ethika-green); }
 
         /* --- Hero Section --- */
         .hero {
-            padding-top: 150px; /* Offset for fixed header */
-            padding-bottom: 100px;
-            background: linear-gradient(135deg, rgba(241, 243, 245, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%);
-            overflow: hidden;
+            background-color: var(--ethika-dark);
+            color: var(--text-white);
+            padding: 100px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--ethika-green);
         }
 
-        .hero-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .hero-content {
-            flex: 1;
-        }
-
-        .hero-title {
+        .hero h1 {
             font-size: 3rem;
+            margin-bottom: 25px;
             line-height: 1.2;
+            color: var(--text-white);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--text-gray);
+            font-weight: 300;
+        }
+
+        /* --- Nuestra Misión (Escudo) --- */
+        .mission {
+            padding: 80px 0;
+            background-color: var(--text-white);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .mission-text h2 {
+            font-size: 2.2rem;
+            color: var(--ethika-dark);
             margin-bottom: 20px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 40px;
-            color: #576574;
-        }
-
-        .hero-image {
-            flex: 1;
             position: relative;
         }
-
-        .hero-image img {
-            width: 110%; /* Overflow slightly to the right */
-            max-width: 650px;
+        
+        .mission-text h2::after {
+            content: '';
             display: block;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transform: translateX(10%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--ethika-gold);
+            margin-top: 15px;
         }
 
-        /* --- Servicios Section --- */
-        .services {
-            padding: 100px 0;
-            background-color: var(--bg-light);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-
-        .service-card {
-            background-color: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.05);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        .service-logo img {
-            height: 90px;
-            margin-bottom: 30px;
-        }
-
-        .service-title {
-            font-size: 1.75rem;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-        }
-
-        .service-description {
-            color: #576574;
-            margin-bottom: 30px;
-            font-size: 1rem;
-            flex-grow: 1;
-        }
-
-        /* --- Misión Section --- */
-        .mission {
-            padding: 100px 0;
-            background-color: var(--konfidente-blue);
-            color: var(--text-light);
-            text-align: center;
-        }
-
-        .mission-text {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.25rem;
-            line-height: 1.8;
-        }
-
-        /* --- Respaldo Legal Section --- */
-        .legal {
-            padding: 100px 0;
-            background-color: var(--bg-light);
-        }
-
-        .legal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            text-align: center;
-        }
-
-        .legal-item {
-            background-color: var(--bg-grey);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .legal-icon {
-            font-size: 3rem;
-            color: var(--konfidente-magenta);
-            margin-bottom: 20px;
-        }
-
-        .legal-text {
-            font-size: 1rem;
-            color: #576574;
-        }
-
-        /* --- Contacto Section --- */
-        .contact {
-            padding: 100px 0;
-            background-color: var(--bg-grey);
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 2fr 1.5fr;
-            gap: 60px;
-        }
-
-        .contact-info {
-            background-color: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        }
-
-        .contact-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            color: var(--konfidente-blue);
-        }
-
-        .contact-details {
-            margin-bottom: 40px;
-        }
-
-        .contact-details li {
+        .mission-text p {
             font-size: 1.1rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .contact-details .icon {
-            font-size: 1.5rem;
-            color: var(--konfidente-green);
-        }
-
-        .schedule-table {
-            border-collapse: collapse;
-            width: 100%;
-            background-color: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        }
-
-        .schedule-table th, .schedule-table td {
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            text-align: left;
-            padding: 15px;
-        }
-
-        .schedule-table th {
-            background-color: var(--konfidente-blue);
-            color: white;
-            font-weight: 700;
-        }
-
-        .schedule-table .day {
-            font-weight: 600;
-            color: var(--konfidente-blue);
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: #1A1A1A;
-            color: rgba(255,255,255,0.7);
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        .footer-logo img {
-            height: 40px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
-        /* --- Responsive Queries --- */
-        @media (max-width: 992px) {
-            .hero-title { font-size: 2.5rem; }
-            .hero-container { flex-direction: column-reverse; text-align: center; }
-            .hero-image img { width: 100%; max-width: 500px; transform: translateX(0); }
-            .hero-image { display: flex; justify-content: center; }
-            .contact-container { grid-template-columns: 1fr; gap: 40px; }
-            .nav-links { display: none; } /* Simpler responsive nav (needs a dynamic menu in practice) */
-        }
-
-        @media (max-width: 768px) {
-            .section-title { font-size: 2rem; }
-            .hero-title { font-size: 2.1rem; }
-            .hero-subtitle { font-size: 1.1rem; }
-            .services-grid { grid-template-columns: 1fr; }
-            .service-card { padding: 30px; }
-            .legal-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="container nav-container">
-            <a href="#hero" class="logo-main"><img src="image_6.png" alt="Konfidente Workforce Suite Logo"></a>
-            <ul class="nav-links">
-                <li><a href="#hero">Inicio</a></li>
-                <li><a href="#services">Servicios</a></li>
-                <li><a href="#mission">Misión</a></li>
-                <li><a href="#contact">Contacto</a></li>
-            </ul>
-            <a href="https://wa.me/523328080083" class="btn cta-header">Contáctanos</a>
-        </div>
-    </header>
-
-    <section id="hero" class="hero">
-        <div class="container hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">El cumplimiento ético que transforma tu cultura laboral.</h1>
-                <p class="hero-subtitle">En Konfidente, convertimos el cumplimiento legal en ventaja competitiva y el acoso laboral en historia.</p>
-                <a href="#contact" class="btn">Contáctanos</a>
-            </div>
-            <div class="hero-image">
-                <img src="image_3.png" alt="Equipo de Konfidente caminando en oficina moderna">
-            </div>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">Nuestros Servicios</h2>
-            <div class="services-grid">
-                
-                <div class="service-card">
-                    <div>
-                        <div class="service-logo"><img src="image_5.png" alt="Pulso35 Logo"></div>
-                        <h3 class="service-title">Pulso35</h3>
-                        <p class="service-description">'Pulso35' ofrece a todas las organizaciones un medio preventivo para la mejorar de clima laboral, servicios generales y deteccion temprana de riesgos.</p>
-                    </div>
-                    <a href="https://wa.me/523328080083?text=Hola%20Konfidente,%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Pulso35" class="btn">Más Información</a>
-                </div>
-
-                <div class="service-card">
-                    <div>
-                        <div class="service-logo"><img src="image_4.png" alt="Ethika35 Logo"></div>
-                        <h3 class="service-title">Ethika35</h3>
-                        <p class="service-description">'Ethika35' Por otro lado, ofrece un canal confidencial para reportar sus preocupaciones eticas, Especialmente útil cuando un colaborador no se siente cómodo utilizando un canal de comunicación directo (como su gerente o un socio), o cuando esa vía no es efectiva o segura.</p>
-                    </div>
-                    <a href="https://wa.me/523328080083?text=Hola%20Konfidente,%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Ethika35" class="btn">Más Información</a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="mission" class="mission">
-        <div class="container mission-content">
-            <h2 class="section-title mission-title">Nuestra Misión</h2>
-            <p class="mission-text">
-                Transformamos empresas mexicanas en espacios donde el respeto se vive, no solo es declarado. A través de tecnología intuitiva y acompañamiento humano, convertimos cumplimiento ético en ventaja competitiva y el acoso laboral en historia.
-                <br><br>
-                En Konfidente, creemos en la importancia de un entorno laboral y comercial donde la ética, la integridad y la honestidad sean los pilares. Nuestra plataforma está diseñada para fomentar la comunicación abierta y proteger a quienes tienen el valor de hablar.
-            </p>
-        </div>
-    </section>
-
-    <section id="legal" class="legal">
-        <div class="container">
-            <h2 class="section-title">Herramientas de cumplimiento legal</h2>
-            <div class="legal-grid">
-                <div class="legal-item">
-                    <div class="legal-icon">📋</div>
-                    <p class="legal-text">Factores de riesgo psicosocial en el trabajo - <strong>NOM-035</strong></p>
-                </div>
-                <div class="legal-item">
-                    <div class="legal-icon">⚖️</div>
-                    <p class="legal-text">Reforma Laboral de 2019 - <strong>Ley Federal del Trabajo Art-03</strong></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container contact-container">
-            <div class="contact-info">
-                <h2 class="section-titlecontact-title">Comunícate con nosotros</h2>
-                <p class="contact-subtitle">O, aún mejor, ¡ven a visitarnos!</p>
-                <p class="contact-description">Nos encanta recibir a nuestros clientes, así que ven en cualquier momento durante las horas de oficina.</p>
-                <br>
-                <ul class="contact-details">
-                    <li><span class="icon">💬</span> WhatsApp: <a href="https://wa.me/523328080083">33 2808 0083</a></li>
-                    <li><span class="icon">✉️</span> Email: <a href="mailto:hola@konfidente.com">hola@konfidente.com</a></li>
-                    <li><span class="icon">🏢</span> Konfidente Workforce Suite</li>
-                </ul>
-                <a href="https://wa.me/523328080083" class="btn">Contáctanos</a>
-            </div>
-            <div class="schedule-container">
-                <table class="schedule-table">
-                    <thead>
-                        <tr><th colspan="2">Horario</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td class="day">lun</td><td>09:00 a.m. – 05:00 p.m.</td></tr>
-                        <tr><td class="day">mar</td><td>09:00 a.m. – 05:00 p.m.</td></tr>
-                        <tr><td class="day">mié</td><td>09:00 a.m. – 05:00 p.m.</td></tr>
-                        <tr><td class="day">jue</td><td>09:00 a.m. – 05:00 p.m.</td></tr>
-                        <tr><td class="day">vie</td><td>09:00 a.m. – 05:00 p.m.</td></tr>
-                        <tr><td class="day">sáb</td><td>Cerrado</td></tr>
-                        <tr><td class="day">dom</td><td>Cerrado</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-logo"><img src="image_6.png" alt="Konfidente Logo"></div>
-            <p>&copy; 2023 Konfidente Workforce Suite. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-</body>
-</html>
+            margin-bottom: 20
