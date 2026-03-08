@@ -6,23 +6,23 @@
     <title>Preguntas Frecuentes - Ethika35</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Paleta de Colores Institucional Ethika35 */
+        /* Paleta de Colores Ethika35 "ALEGRE" (Transparencia, Confianza y Luz) */
         :root {
-            --ethika-dark: #1B262C;
-            --ethika-green: #0F9D58;
-            --ethika-light: #F4F6F7;
-            --ethika-gold: #D4AF37;
-            --text-white: #FFFFFF;
-            --text-gray: #B0BEC5;
-            --text-dark: #2C3E50;
+            --ethika-primary: #FFFFFF;
+            --ethika-green-bright: #00D09C; /* Verde vibrante alegre */
+            --ethika-green-hover: #00A37A;
+            --ethika-text-main: #1A202C;
+            --ethika-text-gray: #718096;
+            --ethika-light-bg: #F0FDF4; /* Fondo suave para hero */
+            --ethika-gold: #F59E0B;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            color: var(--ethika-dark);
-            background-color: var(--ethika-light);
+            color: var(--ethika-text-main);
+            background-color: #FAFBFC; /* Fondo muy suave para la grid */
             line-height: 1.7;
         }
 
@@ -35,29 +35,32 @@
             padding: 0 20px;
         }
 
+        /* --- Botón Alegre --- */
         .btn-primary {
             display: inline-block;
-            background-color: var(--ethika-green);
-            color: var(--text-white);
+            background-color: var(--ethika-green-bright);
+            color: #FFFFFF;
             padding: 12px 25px;
             text-decoration: none;
             border-radius: 4px;
             font-weight: 700;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 208, 156, 0.3);
         }
 
         .btn-primary:hover {
-            background-color: #0B7A44;
+            background-color: var(--ethika-green-hover);
+            transform: translateY(-2px);
         }
 
-        /* --- Header --- */
+        /* --- Header Brillante --- */
         header {
-            background-color: var(--ethika-dark);
+            background-color: rgba(255, 255, 255, 0.98);
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .header-content {
@@ -66,10 +69,10 @@
             align-items: center;
         }
 
-        .logo-img { height: 45px; filter: brightness(0) invert(1); }
+        .logo-img { height: 45px; }
 
         .nav-links a {
-            color: var(--text-white);
+            color: var(--ethika-text-main);
             text-decoration: none;
             margin-left: 20px;
             font-size: 0.9rem;
@@ -77,32 +80,33 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover { color: var(--ethika-green); }
+        .nav-links a:hover { color: var(--ethika-green-bright); }
 
-        /* --- Hero FAQ --- */
+        /* --- Hero FAQ Alegre --- */
         .hero-faq {
-            background-color: var(--ethika-dark);
-            color: var(--text-white);
-            padding: 60px 0;
+            background-color: var(--ethika-light-bg);
+            color: var(--ethika-text-main);
+            padding: 70px 0;
             text-align: center;
-            border-bottom: 5px solid var(--ethika-green);
+            border-bottom: 2px solid rgba(0, 208, 156, 0.1);
         }
 
         .hero-faq h1 {
             font-size: 2.5rem;
             margin-bottom: 15px;
+            color: var(--ethika-text-main);
         }
 
         .hero-faq p {
-            font-size: 1.1rem;
-            color: var(--text-gray);
+            font-size: 1.15rem;
+            color: var(--ethika-text-gray);
             max-width: 600px;
             margin: 0 auto;
         }
 
-        /* --- FAQ Section --- */
+        /* --- FAQ Section Brillante --- */
         .faq-section {
-            padding: 60px 0;
+            padding: 70px 0;
         }
 
         .faq-grid {
@@ -111,25 +115,27 @@
             gap: 40px;
         }
 
+        /* --- Tarjeta FAQ Tech-Clean --- */
         .faq-card {
             display: flex;
             background-color: #FFFFFF;
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.02);
             overflow: hidden;
-            border-left: 5px solid var(--ethika-green);
-            transition: transform 0.3s ease;
+            border-left: 5px solid var(--ethika-green-bright); /* Acento vibrante */
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 208, 156, 0.05);
         }
 
         .faq-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 208, 156, 0.1);
         }
 
         .faq-image-container {
             width: 250px;
             flex-shrink: 0;
-            background-color: #E8ECEF; /* Color de fondo mientras cargan las imágenes */
+            background-color: #FAFBFC;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -142,52 +148,50 @@
             object-fit: cover;
         }
 
-        /* Etiqueta de marcador de posición (se ocultará cuando haya imagen) */
         .placeholder-text {
             position: absolute;
-            color: #90A4AE;
+            color: #A0AEC0;
             font-size: 0.8rem;
             text-align: center;
             padding: 10px;
         }
 
         .faq-content {
-            padding: 30px;
+            padding: 35px;
             flex-grow: 1;
         }
 
         .faq-content h3 {
-            color: var(--ethika-dark);
-            font-size: 1.4rem;
-            margin-bottom: 15px;
+            color: var(--ethika-text-main);
+            font-size: 1.5rem;
+            margin-bottom: 18px;
         }
 
         .faq-content p {
-            color: #455A64;
+            color: #4A5568;
             margin-bottom: 15px;
+            font-size: 1.05rem;
         }
 
-        .faq-content p:last-child {
-            margin-bottom: 0;
-        }
+        .faq-content p:last-child { margin-bottom: 0; }
+        .faq-content strong { color: var(--ethika-text-main); }
 
-        .faq-content strong {
-            color: var(--ethika-dark);
-        }
-
-        /* --- Footer --- */
+        /* --- Footer Claro --- */
         footer {
-            background-color: #11181C;
-            color: #78909C;
+            background-color: #FFFFFF;
+            color: var(--ethika-text-gray);
             text-align: center;
             padding: 40px 0;
             font-size: 0.9rem;
-            margin-top: 40px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(0,0,0,0.03);
         }
 
         @media (max-width: 768px) {
             .faq-card { flex-direction: column; }
             .faq-image-container { width: 100%; height: 200px; }
+            .faq-content { padding: 25px; }
+            .hero-faq h1 { font-size: 2.1rem; }
             .nav-links { display: none; }
         }
     </style>
@@ -196,13 +200,13 @@
 
     <header>
         <div class="container header-content">
-            <a href="index.html">
+            <a href="/">
                 <img src="pictures/logo_ethika35.png" alt="Ethika35 Logo" class="logo-img">
             </a>
             <div class="nav-links">
-                <a href="index.html">Inicio</a>
+                <a href="/">Inicio</a>
                 <a href="mailto:hola@konfidente.com">Contacto</a>
-                <a href="https://wa.me/523328080083" class="btn-primary" style="padding: 8px 20px; margin-left: 20px;">Hacer un Reporte</a>
+                <a href="https://wa.me/523328080083" class="btn-primary" style="padding: 9px 22px; margin-left: 20px;">Hacer un Reporte</a>
             </div>
         </div>
     </header>
@@ -219,6 +223,7 @@
 
             <div class="faq-card">
                 <div class="faq-image-container">
+                    <span class="placeholder-text">Espacio para: faq-1-proposito.png</span>
                     <img src="pictures/faq-1-proposito.png" alt="Propósito de Ethika35" onerror="this.style.display='none'">
                 </div>
                 <div class="faq-content">
@@ -230,6 +235,7 @@
 
             <div class="faq-card">
                 <div class="faq-image-container">
+                    <span class="placeholder-text">Espacio para: faq-2-operador.png</span>
                     <img src="pictures/faq-2-operador.png" alt="Operador independiente" onerror="this.style.display='none'">
                 </div>
                 <div class="faq-content">
@@ -241,6 +247,7 @@
 
             <div class="faq-card">
                 <div class="faq-image-container">
+                    <span class="placeholder-text">Espacio para: faq-3-confidencialidad.png</span>
                     <img src="pictures/faq-3-confidencialidad.png" alt="Acuerdos de confidencialidad" onerror="this.style.display='none'">
                 </div>
                 <div class="faq-content">
@@ -252,6 +259,7 @@
 
             <div class="faq-card">
                 <div class="faq-image-container">
+                    <span class="placeholder-text">Espacio para: faq-4-horario.png</span>
                     <img src="pictures/faq-4-horario.png" alt="Disponibilidad 24/7" onerror="this.style.display='none'">
                 </div>
                 <div class="faq-content">
@@ -262,21 +270,23 @@
 
             <div class="faq-card">
                 <div class="faq-image-container">
+                    <span class="placeholder-text">Espacio para: faq-5-audiencia.png</span>
                     <img src="pictures/faq-5-audiencia.png" alt="Quién puede usarlo" onerror="this.style.display='none'">
                 </div>
                 <div class="faq-content">
                     <h3>¿Quién puede contactar la línea ética?</h3>
                     <p>Cualquier persona, ya sea interna o externa a <strong>Konfidente</strong> o a sus clientes, puede enviar un reporte, esto incluye:</p>
                     <ul>
-                        <li style="margin-left: 20px; color: #455A64;">Empleados</li>
-                        <li style="margin-left: 20px; color: #455A64;">Clientes</li>
-                        <li style="margin-left: 20px; color: #455A64;">Proveedores</li>
+                        <li style="margin-left: 25px; color: #4A5568;">Empleados</li>
+                        <li style="margin-left: 25px; color: #4A5568;">Clientes</li>
+                        <li style="margin-left: 25px; color: #4A5568;">Proveedores</li>
                     </ul>
                 </div>
             </div>
 
             <div class="faq-card">
                 <div class="faq-image-container">
+                    <span class="placeholder-text">Espacio para: faq-6-cuando-usar.png</span>
                     <img src="pictures/faq-6-cuando-usar.png" alt="Cuándo utilizar la línea" onerror="this.style.display='none'">
                 </div>
                 <div class="faq-content">
