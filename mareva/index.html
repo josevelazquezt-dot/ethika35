@@ -6,7 +6,7 @@
     <title>Portal de Bienestar y Cultura - Mareva | Konfidente</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -14,8 +14,8 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        marevaBlue: '#0A2540', /* Color corporativo Mareva */
-                        konfidenteSlate: '#64748B',
+                        marevaBlue: '#0A2540', /* Azul Corporativo Mareva */
+                        konfidenteSlate: '#334155', /* Color ejecutivo oscuro */
                         konfidenteLight: '#F8FAFC'
                     },
                     boxShadow: {
@@ -33,90 +33,92 @@
 </head>
 <body class="text-gray-800 antialiased flex flex-col min-h-screen">
 
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-marevaBlue rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-md">
-                    M
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            
+            <div class="flex items-center">
+                <div class="h-10 w-auto object-contain flex items-center justify-center p-2 rounded border border-gray-100 bg-white" style="min-width: 120px;">
+                    <img src="https://pulso35.com/mareva/pictures/mareva/logo.jpg" alt="Mareva" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'text-lg font-bold text-marevaBlue tracking-tight\'>Mareva</span>';">
                 </div>
-                <h1 class="text-2xl font-bold text-marevaBlue tracking-tight">Mareva</h1>
             </div>
-            <div class="text-sm font-medium text-konfidenteSlate flex items-center">
-                <span class="hidden sm:inline">Powered by</span> 
-                <strong class="ml-1 text-gray-700">Konfidente</strong>
+            
+            <div class="flex items-center space-x-2 bg-slate-100 text-slate-900 px-4 py-2 rounded-full border border-slate-200 shadow-inner">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                <span class="text-sm font-semibold tracking-tight">Portal Seguro y Confidencial</span>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow">
+    <main class="flex-grow flex flex-col justify-center">
         
         <section class="bg-gradient-to-b from-white to-konfidenteLight py-16 px-4 text-center">
             <div class="max-w-3xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-gray-950 mb-6 tracking-tight leading-tight">
                     Tu voz construye nuestro entorno.
                 </h2>
-                <p class="text-lg md:text-xl text-gray-600 leading-relaxed mb-8">
-                    Bienvenido al portal de Bienestar y Cultura de Mareva. Este es un espacio seguro y confidencial diseñado para escucharte, cuidar tu entorno de trabajo y asegurar que vivimos nuestros valores todos los días.
+                <p class="text-lg md:text-xl text-gray-700 leading-relaxed mb-8 font-light max-w-2xl mx-auto">
+                    Bienvenido al portal institucional de **Mareva**. Un espacio seguro diseñado para escucharte, protegerte y asegurar un entorno de trabajo digno y ético.
                 </p>
             </div>
         </section>
 
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 pb-16">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 pb-16 w-full">
+            <div class="flex flex-col md:flex-row items-stretch justify-center gap-8 md:gap-12">
                 
-                <div class="bg-white rounded-2xl p-8 shadow-3d-soft hover:shadow-3d-hover card-transition border border-gray-100 flex flex-col h-full">
-                    <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <div class="bg-white rounded-2xl p-8 shadow-3d-soft hover:shadow-3d-hover card-transition border border-gray-100 flex flex-col w-full md:w-1/2 max-w-md">
+                    
+                    <div class="h-16 mb-6 flex items-center justify-start border-b border-gray-100 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            <span class="text-3xl font-extrabold text-slate-950 tracking-tighter">Pulso<span class="text-blue-600">35</span><span class="text-xs text-slate-400 font-normal ml-1">.com</span></span>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Pulso35</h3>
-                    <p class="text-gray-600 flex-grow mb-6">Ayúdanos a identificar factores de riesgo psicosocial. Tus respuestas son anónimas y mejoran el clima laboral (NOM-035).</p>
-                    <a href="#" class="text-center w-full bg-marevaBlue hover:bg-blue-900 text-white font-semibold py-3 px-4 rounded-xl transition-colors block">Ir a mis encuestas</a>
-                </div>
-
-                <div class="bg-white rounded-2xl p-8 shadow-3d-soft hover:shadow-3d-hover card-transition border border-gray-100 flex flex-col h-full ring-2 ring-transparent hover:ring-marevaBlue">
-                    <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Línea Ethika35</h3>
-                    <p class="text-gray-600 flex-grow mb-6">¿Presenciaste acoso, discriminación o fraude (LFT 2019)? Repórtalo aquí de forma 100% segura y confidencial.</p>
-                    <a href="#" class="text-center w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors block">Hacer un reporte ético</a>
-                </div>
-
-                <div class="bg-white rounded-2xl p-8 shadow-3d-soft hover:shadow-3d-hover card-transition border border-gray-100 flex flex-col h-full">
-                    <div class="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Atención al Talento</h3>
-                    <p class="text-gray-600 flex-grow mb-6">¿Dudas sobre vacaciones, nómina o beneficios? Levanta un ticket para que el equipo de Recursos Humanos te apoye.</p>
-                    <a href="mailto:rh@mareva.com.mx" class="text-center w-full bg-white border-2 border-gray-200 hover:border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-xl transition-colors block">Solicitar apoyo</a>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="max-w-4xl mx-auto px-4 py-12 border-t border-gray-200">
-            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-                <div class="flex-shrink-0">
-                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                        <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    </div>
-                </div>
-                <div class="text-center md:text-left">
-                    <h4 class="text-lg font-bold text-gray-900 mb-2">Operación Externa y Confidencial</h4>
-                    <p class="text-sm text-gray-600 leading-relaxed">
-                        Esta plataforma es operada tecnológicamente por <strong>Konfidente</strong> y gestionada por auditores independientes de <strong>Bahumana</strong>. Mareva no tiene acceso a tu identidad ni a la trazabilidad de tu conexión al emitir reportes éticos o encuestas de riesgo psicosocial.
+                    
+                    <h3 class="text-xl font-bold text-gray-950 mb-3 tracking-tight">Clima y Bienestar</h3>
+                    <p class="text-gray-600 flex-grow mb-8 leading-relaxed text-sm font-light">
+                        Evaluamos el entorno organizacional y los factores de riesgo psicosocial. Tus respuestas son **anónimas** y fundamentales para mejorar (NOM-035). Administrado por Bahumana.
                     </p>
+                    <a href="#" class="text-center w-full bg-marevaBlue hover:bg-slate-950 text-white font-semibold py-3.5 px-4 rounded-xl transition-colors block shadow">
+                        Ir a mis encuestas
+                    </a>
                 </div>
+
+                <div class="bg-white rounded-2xl p-8 shadow-3d-soft hover:shadow-3d-hover card-transition border border-gray-100 flex flex-col w-full md:w-1/2 max-w-md ring-1 ring-emerald-50 hover:ring-emerald-200">
+                    
+                    <div class="h-16 mb-6 flex items-center justify-start border-b border-gray-100 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            <span class="text-3xl font-extrabold text-slate-950 tracking-tighter">Ethika<span class="text-emerald-600">35</span><span class="text-xs text-slate-400 font-normal ml-1">.com</span></span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-950 mb-3 tracking-tight">Línea de Denuncia</h3>
+                    <p class="text-gray-600 flex-grow mb-8 leading-relaxed text-sm font-light">
+                        Reporta de forma segura actos de acoso, discriminación, violencia laboral o violaciones al Código de Ética (LFT). **Tercero independiente garantizado por Bahumana.**
+                    </p>
+                    <a href="#" class="text-center w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 px-4 rounded-xl transition-colors block shadow">
+                        Hacer un reporte ético
+                    </a>
+                </div>
+
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-gray-900 text-gray-400 py-8 text-sm">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <p>&copy; 2026 Sistema de Gestión Ética y Riesgo Humano. Todos los derechos reservados.</p>
-                <p class="mt-1">Cumplimiento integral NOM-035-STPS y LFT.</p>
+    <footer class="bg-gray-900 text-gray-300 py-10 text-sm border-t-4 border-marevaBlue">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <p class="font-semibold text-gray-100 text-base">Sistema de Gestión Ética y Riesgo Humano © 2026.</p>
+                <p class="mt-1 font-light">Cumplimiento integral de la NOM-035-STPS y Ley Federal del Trabajo.</p>
+                <p class="mt-4 text-xs text-gray-500">Operado tecnológicamente por Konfidente Suite y gestionado operativamente por auditores de Bahumana.</p>
+            </div>
+            
+            <div class="flex items-center space-x-3 bg-gray-800 px-5 py-3 rounded-xl border border-gray-700 shadow-inner">
+                <span class="text-xs font-medium text-gray-400 uppercase tracking-wider">Powered by</span>
+                <div class="h-7 w-auto object-contain flex items-center justify-center p-1" style="min-width: 100px;">
+                    <img src="https://pulso35.com/pictures/logo_konfidente.png" alt="Konfidente Logo" class="h-6 w-auto object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'text-lg font-bold text-gray-200 tracking-tight\'>Konfidente</span>';">
+                </div>
             </div>
         </div>
     </footer>
