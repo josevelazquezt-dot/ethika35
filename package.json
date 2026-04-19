@@ -1,5 +1,5 @@
 {
-  "name": "konfidente-ethika35",
+  "name": "konfidente-pulso35",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,5 +21,6 @@
     "autoprefixer": "latest",
     "postcss": "latest",
     "tailwindcss": "latest",
-    "@tailwindcss/postcss": "latest" 
+    "@tailwindcss/postcss": "latest"
   }
+}
