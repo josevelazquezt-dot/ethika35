@@ -1,213 +1,333 @@
-import Image from 'next/image';
-import Link from 'next/link';
-
-/**
- * COMPONENTE: Ethika35 Marketing Page (Fase 1)
- * OBJETIVO: Posicionamiento B2B, cumplimiento LFT/NOM-035 y conversión.
- * DESARROLLADO POR: Konfidente Workforce Suite
- */
-
-export default async function MarketingPage() {
-  // --- LOGS DE CONTROL TÉCNICO ---
-  console.log("[Ethika35-Log] Iniciando renderizado de la página principal B2B.");
-  
-  try {
-    const environment = process.env.NODE_ENV;
-    console.log(`[Ethika35-Log] Entorno detectado: ${environment}`);
-    
-    // Simulación de validación de activos en /pictures
-    // Factor Integración: Asegurar que los archivos existan en public/pictures/
-  } catch (error) {
-    console.error("[Ethika35-Error] Fallo en la inicialización del Server Component:", error);
-  }
-
+export default function MarketingPage() {
   return (
-    <div className="bg-white min-h-screen text-[#1A202C] font-sans antialiased selection:bg-[#00D09C] selection:text-white">
+    <>
+      {/* Carga de las fuentes de Google Fonts */}
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet" />
       
-      {/* --- HEADER: ARQUITECTURA DE MARCA --- */}
-      <header className="bg-white/98 backdrop-blur sticky top-0 z-[100] border-b border-gray-100 shadow-sm py-4">
-        <div className="w-[90%] max-w-[1200px] mx-auto flex justify-between items-center px-4">
-          <div className="flex items-center">
-            <Image 
-              src="/pictures/logo_ethika35.png" 
-              alt="Ethika35 Logo" 
-              width={180} 
-              height={50} 
-              className="h-12 w-auto object-contain"
-              priority
-            />
+      {/* Estilos CSS Nativos exactos de tu HTML */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        :root {
+            --ethika-primary: #FFFFFF;
+            --ethika-green-bright: #00D09C;
+            --ethika-green-hover: #00A37A;
+            --ethika-text-main: #1A202C;
+            --ethika-text-gray: #718096;
+            --ethika-light-bg: #F0FDF4;
+            --ethika-gold: #F59E0B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ethika-text-main);
+            background-color: var(--ethika-primary);
+            line-height: 1.7;
+        }
+
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--ethika-green-bright);
+            color: #FFFFFF;
+            padding: 14px 30px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 208, 156, 0.3);
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--ethika-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 208, 156, 0.4);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--ethika-green-bright);
+            border: 2px solid var(--ethika-green-bright);
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(0, 208, 156, 0.05);
+            transform: translateY(-2px);
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img { height: 45px; }
+
+        .nav-links a {
+            color: var(--ethika-text-main);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--ethika-green-bright); }
+
+        .hero {
+            background-color: var(--ethika-light-bg);
+            color: var(--ethika-text-main);
+            padding: 120px 0;
+            text-align: center;
+            border-bottom: 2px solid rgba(0, 208, 156, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            color: var(--ethika-text-main);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--ethika-text-gray);
+            font-weight: 300;
+        }
+
+        .mission {
+            padding: 100px 0;
+            background-color: var(--ethika-primary);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .mission-text h2 {
+            font-size: 2.5rem;
+            color: var(--ethika-text-main);
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .mission-text h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--ethika-gold);
+            margin-top: 15px;
+        }
+
+        .mission-text p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #4A5568;
+        }
+
+        .shield-box {
+            background-color: #FFFFFF;
+            padding: 50px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 208, 156, 0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            position: relative;
+        }
+        
+        .shield-box::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background-color: var(--ethika-green-bright);
+            border-radius: 12px 0 0 12px;
+        }
+
+        .shield-box ul {
+            list-style: none;
+        }
+
+        .shield-box ul li {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .shield-box ul li::before {
+            content: "🛡️";
+            margin-right: 15px;
+            font-size: 1.3rem;
+        }
+
+        .impact {
+            padding: 100px 0;
+            background-color: #FAFBFC;
+            border-top: 1px solid rgba(0, 208, 156, 0.05);
+            text-align: center;
+        }
+
+        .impact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: var(--ethika-text-main);
+        }
+
+        .impact p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 45px;
+            color: var(--ethika-text-gray);
+        }
+
+        .integration-badge {
+            display: inline-block;
+            background-color: #FFFFFF;
+            color: var(--ethika-text-main);
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 208, 156, 0.2);
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .integration-badge strong {
+            color: var(--ethika-green-bright);
+        }
+
+        footer {
+            background-color: #F7FAFC;
+            color: var(--ethika-text-gray);
+            text-align: center;
+            padding: 60px 0;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .footer-logo img { height: 40px; opacity: 0.8; margin-bottom: 25px; }
+
+        .qr-linkedin:hover { transform: scale(1.05); }
+
+        @media (max-width: 768px) {
+            .mission-grid { grid-template-columns: 1fr; gap: 30px; }
+            .hero h1 { font-size: 2.3rem; }
+            .nav-links { display: none; }
+            .shield-box { padding: 30px; }
+        }
+      `}} />
+
+      {/* HTML Estructurado convertido a JSX */}
+      <header>
+          <div className="container header-content">
+              <img src="/pictures/logo_ethika35.png" alt="Ethika35 Logo" className="logo-img" />
+              <div className="nav-links">
+                  <a href="/faq.html">Preguntas Frecuentes</a>
+                  <a href="mailto:hola@konfidente.com">Contacto</a>
+                  <a href="https://ethika35.factorintegracion.net/test" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '10px 25px', marginLeft: '20px' }}>Hacer un Reporte</a>
+              </div>
           </div>
-          
-          <nav className="hidden lg:flex items-center space-x-8">
-            <Link href="/faq.html" className="text-[0.9rem] font-semibold text-[#1A202C] hover:text-[#00D09C] transition-colors">
-              FAQ
-            </Link>
-            <Link href="/expedientes.html" className="text-[0.9rem] font-semibold text-[#1A202C] hover:text-[#00D09C] transition-colors">
-              Gestión de Expedientes
-            </Link>
-            <a href="mailto:hola@konfidente.com" className="text-[0.9rem] font-semibold text-[#1A202C] hover:text-[#00D09C] transition-colors">
-              Contacto
-            </a>
-            <a 
-              href="https://ethika35.factorintegracion.net/test" 
-              className="bg-[#00D09C] text-white px-6 py-2.5 rounded shadow-lg hover:bg-[#00A37A] hover:-translate-y-0.5 transition-all font-bold text-xs uppercase tracking-widest"
-            >
-              Hacer un Reporte
-            </a>
-          </nav>
-        </div>
       </header>
 
-      {/* --- HERO: PROPUESTA DE VALOR BLINDADA --- */}
-      <section className="bg-[#F0FDF4] py-24 md:py-32 border-b border-[#00D09C]/10 text-center">
-        <div className="w-[90%] max-w-[1000px] mx-auto px-4">
-          <span className="inline-block bg-[#00D09C]/10 text-[#00A37A] text-[10px] font-black uppercase tracking-[0.3em] px-4 py-2 rounded-full mb-8">
-            Cumplimiento LFT & NOM-035
-          </span>
-          <h1 className="font-serif text-4xl md:text-6xl font-bold mb-8 leading-tight text-[#1A202C]">
-            Transparencia Corporativa.<br/>
-            <span className="text-[#00D09C]">Cero Conflictos de Interés.</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-[#718096] font-light max-w-3xl mx-auto mb-12">
-            Un canal robusto y completamente independiente para reportar conductas poco éticas o ilegales. Protegemos a tu empresa y a tu gente con el más alto estándar de confidencialidad.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <a 
-              href="https://ethika35.factorintegracion.net/test" 
-              className="w-full sm:w-auto bg-[#00D09C] text-white px-10 py-4 rounded font-bold shadow-xl hover:bg-[#00A37A] hover:scale-105 transition-all text-lg"
-            >
-              Iniciar Reporte Confidencial
-            </a>
-            <Link 
-              href="/faq.html" 
-              className="w-full sm:w-auto bg-white text-[#00D09C] border-2 border-[#00D09C] px-10 py-4 rounded font-bold hover:bg-[#F0FDF4] transition-all text-lg"
-            >
-              ¿Cómo funciona?
-            </Link>
+      <section className="hero">
+          <div className="container">
+              <h1>Transparencia Corporativa.<br />Cero Conflictos de Interés.</h1>
+              <p>Un canal robusto y completamente independiente para reportar conductas poco éticas o ilegales. Protegemos a tu empresa y a tu gente con el más alto estándar de confidencialidad.</p>
+              <a href="https://ethika35.factorintegracion.net/test" target="_blank" rel="noopener noreferrer" className="btn-primary">Iniciar Reporte Confidencial</a>
+              <br /><br />
+              <a href="/faq.html" className="btn-outline">¿Cómo funciona? Ver Preguntas Frecuentes</a>
           </div>
-        </div>
       </section>
 
-      {/* --- MISIÓN & RESPALDO ESPECIALIZADO --- */}
-      <section className="py-24 bg-white">
-        <div className="w-[90%] max-w-[1100px] mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-6">
-            <h2 className="font-serif text-4xl font-bold text-[#1A202C] relative">
-              Nuestra Misión
-              <div className="w-20 h-1.5 bg-[#F59E0B] mt-4 rounded-full"></div>
-            </h2>
-            <p className="text-lg text-[#4A5568] leading-relaxed">
-              Proveer un canal robusto y completamente independiente para reportar conductas poco éticas, ilegales o inconsistentes con los estándares profesionales de tu organización.
-            </p>
-            <p className="text-lg text-[#4A5568] leading-relaxed">
-              Garantizamos <strong>total anonimato</strong> (donde la ley lo permita). Nuestro sistema está diseñado para proteger la identidad del informante: sin identificador de llamadas, sin rastreo de IPs y sin grabaciones de voz no autorizadas.
-            </p>
+      <section className="mission">
+          <div className="container mission-grid">
+              <div className="mission-text">
+                  <h2>Nuestra Misión</h2>
+                  <p>Proveer un canal robusto y completamente independiente para reportar conductas poco éticas, ilegales o inconsistentes con los estándares profesionales de tu organización.</p>
+                  <p>Garantizamos <strong>total anonimato</strong> (donde la ley lo permita). Nuestro sistema está diseñado para proteger la identidad del informante: sin identificador de llamadas, sin rastreo de IPs y sin grabaciones de voz no autorizadas.</p>
+              </div>
+              
+              <div className="shield-box">
+                  <h3 style={{ marginBottom: '25px', color: 'var(--ethika-text-main)' }}>El Respaldo de Especialistas</h3>
+                  <ul>
+                      <li><strong>Gestión Independiente:</strong> Operado por el equipo de especialistas de <strong>BAHUMANA</strong>.</li>
+                      <li><strong>Máxima Discreción:</strong> Cada reporte es manejado con rigor y profesionalismo desde su recepción.</li>
+                      <li><strong>Escalación Directa:</strong> Reportes filtrados y entregados directamente al Consejo de Administración.</li>
+                      <li><strong>Imparcialidad Absoluta:</strong> Garantizamos un proceso libre de conflictos de interés internos.</li>
+                  </ul>
+              </div>
           </div>
-          
-          <div className="bg-white p-8 md:p-12 rounded-2xl border border-gray-100 shadow-2xl relative overflow-hidden group">
-            <div className="absolute left-0 top-0 bottom-0 w-2 bg-[#00D09C] transition-all group-hover:w-3"></div>
-            <h3 className="font-serif text-2xl font-bold mb-8">El Respaldo de Especialistas</h3>
-            <ul className="space-y-6">
-              <li className="flex items-start">
-                <span className="text-2xl mr-4">🛡️</span>
-                <div>
-                  <h4 className="font-bold">Gestión Independiente</h4>
-                  <p className="text-sm text-[#718096]">Operado por el equipo de especialistas de <strong>BAHUMANA</strong>.</p>
-                </div>
-              </li>
-              <li className="flex items-start">
-                <span className="text-2xl mr-4">🛡️</span>
-                <div>
-                  <h4 className="font-bold">Máxima Discreción</h4>
-                  <p className="text-sm text-[#718096]">Cada reporte es manejado con rigor y profesionalismo desde su recepción.</p>
-                </div>
-              </li>
-              <li className="flex items-start">
-                <span className="text-2xl mr-4">🛡️</span>
-                <div>
-                  <h4 className="font-bold">Escalación Directa</h4>
-                  <p className="text-sm text-[#718096]">Reportes filtrados y entregados directamente al Consejo de Administración.</p>
-                </div>
-              </li>
-              <li className="flex items-start">
-                <span className="text-2xl mr-4">🛡️</span>
-                <div>
-                  <h4 className="font-bold">Imparcialidad Absoluta</h4>
-                  <p className="text-sm text-[#718096]">Garantizamos un proceso libre de conflictos de interés internos.</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
       </section>
 
-      {/* --- IMPACTO & CULTURA: ECOSISTEMA KIMIA --- */}
-      <section className="py-24 bg-[#FAFBFC] border-t border-gray-100 text-center">
-        <div className="w-[90%] max-w-[900px] mx-auto px-4">
-          <h2 className="font-serif text-4xl font-bold mb-8">Impacto y Cultura Organizacional</h2>
-          <p className="text-xl text-[#718096] mb-12">
-            No solo recibimos reportes; transformamos datos en estrategias. Realizamos análisis profundos para medir el efecto de tus prácticas empresariales en el clima laboral, el bienestar y la adhesión a los principios éticos.
-          </p>
-          <div className="inline-flex flex-col md:flex-row items-center bg-white p-6 rounded-2xl shadow-lg border border-[#00D09C]/20 gap-4">
-            <span className="bg-[#00D09C] text-white px-4 py-1 rounded text-[10px] font-black uppercase">Plus</span>
-            <p className="font-medium">Integración nativa con <strong>Pulso35</strong> para fortalecer una cultura de respeto.</p>
+      <section className="impact">
+          <div className="container">
+              <h2>Impacto y Cultura Organizacional</h2>
+              <p>No solo recibimos reportes; transformamos datos en estrategias. Realizamos análisis profundos para medir el efecto de tus prácticas empresariales en el clima laboral, el bienestar y la adhesión a los principios éticos.</p>
+              
+              <div className="integration-badge">
+                  Integración nativa con <strong>Pulso35</strong> para optimizar operaciones y fortalecer una cultura de respeto.
+              </div>
           </div>
-        </div>
       </section>
+      
+      <footer>
+          <div className="container">
+              <div className="footer-logo">
+                  <img src="/pictures/logo_ethika35.png" alt="Ethika35 Logo" />
+              </div>
+              <p>
+                  <a href="/faq.html" style={{ color: 'var(--ethika-green-bright)', textDecoration: 'underline' }}>Preguntas Frecuentes</a> | 
+                  <a href="mailto:hola@konfidente.com" style={{ color: 'var(--ethika-text-gray)' }}>hola@konfidente.com</a>
+              </p>
+              
+              <div style={{ margin: '30px 0', display: 'flex', justifyContent: 'center', gap: '40px', flexWrap: 'wrap' }}>
+                  <div style={{ textAlign: 'center' }}>
+                      <a href="https://www.linkedin.com/company/konfidente" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.9em' }}>
+                          <img 
+                            src="/pictures/qr_linkedin.png" 
+                            alt="QR LinkedIn Konfidente" 
+                            className="qr-linkedin"
+                            style={{ width: '90px', height: '90px', borderRadius: '8px', border: '2px solid rgba(255,255,255,0.2)', display: 'block', margin: '0 auto 10px', transition: 'transform 0.3s' }} 
+                          />
+                          LinkedIn
+                      </a>
+                  </div>
+              </div>
 
-      {/* --- FOOTER: SELLO CORPORATIVO --- */}
-      <footer className="bg-[#F7FAFC] border-t border-gray-200 py-16 text-center">
-        <div className="w-[90%] max-w-[1100px] mx-auto px-4">
-          <div className="mb-12">
-            <Image 
-              src="/pictures/logo_ethika35.png" 
-              alt="Ethika35 Logo" 
-              width={140} 
-              height={40} 
-              className="mx-auto grayscale hover:grayscale-0 transition-all opacity-70"
-            />
+              <p>&copy; 2026 Konfidente Workforce Suite - Ethika35. Todos los derechos reservados.</p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-sm text-[#718096] mb-16">
-            <div className="space-y-4">
-              <h5 className="font-bold text-[#1A202C]">Recursos</h5>
-              <ul className="space-y-2">
-                <li><Link href="/faq.html" className="hover:text-[#00D09C]">Preguntas Frecuentes</Link></li>
-                <li><Link href="/expedientes.html" className="hover:text-[#00D09C]">Portal de Expedientes</Link></li>
-              </ul>
-            </div>
-            <div className="space-y-4">
-              <h5 className="font-bold text-[#1A202C]">Legal</h5>
-              <ul className="space-y-2">
-                <li><a href="#" className="hover:text-[#00D09C]">Aviso de Privacidad</a></li>
-                <li><a href="#" className="hover:text-[#00D09C]">Términos y Condiciones</a></li>
-              </ul>
-            </div>
-            <div className="space-y-4">
-              <h5 className="font-bold text-[#1A202C]">Comunidad</h5>
-              <a 
-                href="https://www.linkedin.com/company/konfidente" 
-                target="_blank" 
-                className="group inline-block"
-              >
-                <Image 
-                  src="/pictures/qr_linkedin.png" 
-                  alt="QR LinkedIn" 
-                  width={80} 
-                  height={80} 
-                  className="rounded-lg border-2 border-slate-200 group-hover:border-[#00D09C] transition-all mb-2"
-                />
-                <p className="font-bold group-hover:text-[#00D09C]">LinkedIn</p>
-              </a>
-            </div>
-          </div>
-
-          <p className="text-xs text-gray-400">
-            &copy; {new Date().getFullYear()} Konfidente Workforce Suite - Ethika35. Todos los derechos reservados.
-          </p>
-        </div>
       </footer>
-
-    </div>
+    </>
   );
 }
