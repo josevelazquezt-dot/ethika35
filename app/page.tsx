@@ -251,7 +251,7 @@ export default function MarketingPage() {
       {/* HTML Estructurado convertido a JSX */}
       <header>
           <div className="container header-content">
-              <img src="/public/pictures/logo_ethika35.png" alt="Ethika35 Logo" className="logo-img" />
+              <img src="/pictures/Logo_Ethika35.png" alt="Ethika35 Logo" className="logo-img" />
               <div className="nav-links">
                   <a href="/faq.html">Preguntas Frecuentes</a>
                   <a href="mailto:hola@konfidente.com">Contacto</a>
@@ -304,7 +304,7 @@ export default function MarketingPage() {
       <footer>
           <div className="container">
               <div className="footer-logo">
-                  <img src="/pictures/logo_ethika35.png" alt="Ethika35 Logo" />
+                  <img src="/pictures/Logo_Ethika35.png" alt="Ethika35 Logo" />
               </div>
               <p>
                   <a href="/faq.html" style={{ color: 'var(--ethika-green-bright)', textDecoration: 'underline' }}>Preguntas Frecuentes</a> | 
