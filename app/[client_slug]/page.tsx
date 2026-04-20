@@ -19,61 +19,39 @@ interface TenantConfig {
 // ─── DATA LAYER ───────────────────────────────────────────────────────────────
 
 async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
-  if (!slug || slug.includes('.') || slug.length > 64) {
-    console.log(`[Ethika35] BLOCKED slug="${slug}"`);
-    return null;
-  }
+  const lambdaUrl = process.env.TENANT_API_URL || process.env.NEXT_PUBLIC_TENANT_API_URL;
+  if (!lambdaUrl) return null;
 
-  const lambdaUrl =
-    process.env.TENANT_API_URL ||
-    process.env.NEXT_PUBLIC_TENANT_API_URL;
-
-  if (!lambdaUrl) {
-    console.error('[Ethika35] FATAL: No env TENANT_API_URL ni NEXT_PUBLIC_TENANT_API_URL');
-    return null;
-  }
-
-  // 1. Definimos la base correctamente
   const base = lambdaUrl.trim().replace(/\/+$/, "");
+  // Probamos con minúsculas que es el estándar de la Suite
+  const searchSlug = "TENANT#" + slug.toLowerCase();
+  const endpoint = `${base}/?slug=${encodeURIComponent(searchSlug)}`;
   
-  // 2. Construimos el endpoint con la diagonal necesaria para el Proxy de la Lambda
-  const endpoint = `${base}/?slug=${encodeURIComponent("TENANT#" + slug.toLowerCase())}`;
-  
-  console.log(`[Ethika35] FETCH → ${endpoint}`);
+  console.log(`[Ethika35] Buscando en BD: ${searchSlug}`);
 
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 8000);
-    const res = await fetch(endpoint, { cache: 'no-store', signal: controller.signal });
-    clearTimeout(timer);
-
-    if (!res.ok) {
-      console.error(`[Ethika35] HTTP ERROR ${res.status} en ${slug}`);
-      return null;
-    }
-
+    const res = await fetch(endpoint, { cache: 'no-store' });
     const raw = await res.text();
-    // Log para debuggear en CloudWatch qué está regresando la Lambda
-    console.log(`[Ethika35] RAW RESPONSE: ${raw.substring(0, 200)}`);
     
+    // ESTE LOG ES VITAL: Veremos qué responde la Lambda realmente
+    console.log(`[Ethika35] Respuesta Lambda: ${raw}`);
+
     const data = JSON.parse(raw);
+    
+    // Intentar extraer el Item de todas las formas posibles que usa la arquitectura Kimia
+    const item = data.Item || data.body?.Item || (data.body ? JSON.parse(data.body).Item : null) || data.data;
 
-    // Lógica de "Unwrap" para extraer el registro de DynamoDB
-    const item = data.Item || data.body?.Item || data.data || data;
-
-    if (!item || !item.branding) {
-      console.warn(`[Ethika35] No se encontró branding para: ${slug}`);
+    if (!item) {
+      console.error(`[Ethika35] La Lambda no devolvió el campo 'Item' para ${searchSlug}`);
       return null;
     }
 
     return item as TenantConfig;
-
-  } catch (err: any) {
-    console.error(`[Ethika35] FETCH FAILED para ${slug}:`, err.message);
+  } catch (err) {
+    console.error("[Ethika35] Error de conexión:", err);
     return null;
   }
 }
-
 // ─── REPORT CATEGORIES ────────────────────────────────────────────────────────
 
 const REPORT_CATEGORIES = [
