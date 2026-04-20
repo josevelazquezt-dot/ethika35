@@ -22,42 +22,40 @@ async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
   const lambdaUrl = process.env.TENANT_API_URL || process.env.NEXT_PUBLIC_TENANT_API_URL;
   if (!lambdaUrl) return null;
 
+  // 1. Limpieza total de la URL: Quitamos cualquier diagonal al final
   const base = lambdaUrl.trim().replace(/\/+$/, "");
-  // Normalizamos a minúsculas como en la BD
+  
+  // 2. Construcción limpia: SIN diagonal antes del ?, para que API Gateway no se confunda
   const searchSlug = "TENANT#" + slug.toLowerCase();
-  // Agregamos la / antes del ? vital para Lambdas de Factor Integración
-  const endpoint = `${base}/?slug=${encodeURIComponent(searchSlug)}`;
+  const endpoint = `${base}?slug=${encodeURIComponent(searchSlug)}`;
+
+  console.log(`[Ethika35] Buscando en BD: ${searchSlug}`);
 
   try {
-    const res = await fetch(endpoint, { cache: 'no-store' });
-    if (!res.ok) return null;
+    const res = await fetch(endpoint, { 
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
 
-    const raw = await res.json();
-    
-    // LOG DE DEBUG EN CLOUDWATCH - PARA VER EL OBJETO REAL
-    console.log("[Ethika35] Lambda Response Object:", JSON.stringify(raw));
-
-    // LÓGICA DE UNWRAP (PULSO35 STYLE)
-    // 1. Si viene directo en el root
-    // 2. Si viene dentro de un campo body (en string o objeto)
-    let item = raw.Item || raw.data;
-    
-    if (!item && raw.body) {
-      const parsedBody = typeof raw.body === 'string' ? JSON.parse(raw.body) : raw.body;
-      item = parsedBody.Item || parsedBody;
+    if (!res.ok) {
+      console.error(`[Ethika35] Error HTTP ${res.status} para ${slug}`);
+      return null;
     }
+
+    const data = await res.json();
     
-    // Si sigue siendo null, probamos el objeto crudo
-    if (!item && raw.branding) item = raw;
+    // 3. Extracción Directa: Tu Lambda ya hace result.Items[0], así que data ES el registro.
+    // Pero por seguridad, si viene envuelto en Item, lo sacamos.
+    const item = data.Item || data;
 
     if (!item || !item.branding) {
-      console.error(`[Ethika35] ITEM VACÍO O SIN BRANDING PARA: ${searchSlug}`);
+      console.error("[Ethika35] El registro existe pero no tiene configuración de branding.");
       return null;
     }
 
     return item as TenantConfig;
   } catch (err) {
-    console.error("[Ethika35] Error de red o parseo:", err);
+    console.error("[Ethika35] Error de conexión:", err);
     return null;
   }
 }
