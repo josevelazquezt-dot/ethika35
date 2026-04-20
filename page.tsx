@@ -30,7 +30,8 @@ async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
     return null;
   }
 
-  const endpoint = `${lambdaUrl.trim().replace(/\/$/, '')}/?slug=${encodeURIComponent(`TENANT#${slug.toLowerCase()}`)}`;
+  const base = lambdaUrl.trim().replace(/\/+$/, "");
+  const endpoint = `${base}?slug=${encodeURIComponent("TENANT#" + slug.toLowerCase())}`;
   console.log(`[Ethika35] FETCH → ${endpoint}`);
 
   try {
