@@ -253,7 +253,7 @@ export default function MarketingPage() {
           <div className="container header-content">
               <img src="/pictures/Logo_Ethika35.png" alt="Ethika35 Logo" className="logo-img" />
               <div className="nav-links">
-                  <a href="/faq.html">Preguntas Frecuentes</a>
+                  <a href="/faq">Preguntas Frecuentes</a>
                   <a href="mailto:hola@konfidente.com">Contacto</a>
                   <a href="https://ethika35.factorintegracion.net/test" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '10px 25px', marginLeft: '20px' }}>Hacer un Reporte</a>
               </div>
