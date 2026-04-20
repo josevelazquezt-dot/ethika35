@@ -23,35 +23,47 @@ async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
   if (!lambdaUrl) return null;
 
   const base = lambdaUrl.trim().replace(/\/+$/, "");
-  // Probamos con minúsculas que es el estándar de la Suite
+  // Normalizamos a minúsculas como en la BD
   const searchSlug = "TENANT#" + slug.toLowerCase();
+  // Agregamos la / antes del ? vital para Lambdas de Factor Integración
   const endpoint = `${base}/?slug=${encodeURIComponent(searchSlug)}`;
-  
-  console.log(`[Ethika35] Buscando en BD: ${searchSlug}`);
 
   try {
     const res = await fetch(endpoint, { cache: 'no-store' });
-    const raw = await res.text();
-    
-    // ESTE LOG ES VITAL: Veremos qué responde la Lambda realmente
-    console.log(`[Ethika35] Respuesta Lambda: ${raw}`);
+    if (!res.ok) return null;
 
-    const data = JSON.parse(raw);
+    const raw = await res.json();
     
-    // Intentar extraer el Item de todas las formas posibles que usa la arquitectura Kimia
-    const item = data.Item || data.body?.Item || (data.body ? JSON.parse(data.body).Item : null) || data.data;
+    // LOG DE DEBUG EN CLOUDWATCH - PARA VER EL OBJETO REAL
+    console.log("[Ethika35] Lambda Response Object:", JSON.stringify(raw));
 
-    if (!item) {
-      console.error(`[Ethika35] La Lambda no devolvió el campo 'Item' para ${searchSlug}`);
+    // LÓGICA DE UNWRAP (PULSO35 STYLE)
+    // 1. Si viene directo en el root
+    // 2. Si viene dentro de un campo body (en string o objeto)
+    let item = raw.Item || raw.data;
+    
+    if (!item && raw.body) {
+      const parsedBody = typeof raw.body === 'string' ? JSON.parse(raw.body) : raw.body;
+      item = parsedBody.Item || parsedBody;
+    }
+    
+    // Si sigue siendo null, probamos el objeto crudo
+    if (!item && raw.branding) item = raw;
+
+    if (!item || !item.branding) {
+      console.error(`[Ethika35] ITEM VACÍO O SIN BRANDING PARA: ${searchSlug}`);
       return null;
     }
 
     return item as TenantConfig;
   } catch (err) {
-    console.error("[Ethika35] Error de conexión:", err);
+    console.error("[Ethika35] Error de red o parseo:", err);
     return null;
   }
 }
+
+
+  
 // ─── REPORT CATEGORIES ────────────────────────────────────────────────────────
 
 const REPORT_CATEGORIES = [
