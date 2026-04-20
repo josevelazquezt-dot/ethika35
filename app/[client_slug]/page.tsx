@@ -22,23 +22,42 @@ async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
   // Sanitización defensiva: slugs no deben contener puntos (dominio ≠ slug)
   if (!slug || slug.includes('.') || slug.length > 64) return null;
 
-  const lambdaUrl = process.env.TENANT_API_URL; // ⚠️ SIN NEXT_PUBLIC_ — servidor only
+  // FALLBACK: acepta ambos nombres de variable para no romper deployments existentes.
+  // NEXT_PUBLIC_ expone la URL al cliente — migrar a TENANT_API_URL cuando sea posible.
+  const lambdaUrl =
+    process.env.TENANT_API_URL ||
+    process.env.NEXT_PUBLIC_TENANT_API_URL;
+
   if (!lambdaUrl) {
-    console.error('[Ethika35] TENANT_API_URL no configurada en environment');
+    console.error('[Ethika35] ❌ Ninguna variable de entorno encontrada: TENANT_API_URL ni NEXT_PUBLIC_TENANT_API_URL');
     return null;
   }
 
+  const endpoint = `${lambdaUrl.trim().replace(/\/$/, '')}/?slug=${encodeURIComponent(`TENANT#${slug.toLowerCase()}`)}`;
+  console.log(`[Ethika35] Fetching tenant: ${endpoint}`);
+
   try {
-    const endpoint = `${lambdaUrl.trim().replace(/\/$/, '')}/?slug=${encodeURIComponent(`TENANT#${slug.toLowerCase()}`)}`;
+    // AbortSignal.timeout() requiere Node 17.3+. Usamos el patrón compatible universalmente.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const res = await fetch(endpoint, {
       cache: 'no-store',
-      next: { revalidate: 0 },
-      signal: AbortSignal.timeout(5000), // Timeout de 5s — no bloquear indefinidamente
+      signal: controller.signal,
     });
-    if (!res.ok) return null;
-    return (await res.json()) as TenantConfig;
+
+    clearTimeout(timeoutId);
+
+    if (!res.ok) {
+      console.error(`[Ethika35] Lambda respondió ${res.status} para slug "${slug}"`);
+      return null;
+    }
+
+    const data = await res.json();
+    console.log(`[Ethika35] ✅ Tenant encontrado: ${data?.legal_name ?? 'sin nombre'}`);
+    return data as TenantConfig;
   } catch (err) {
-    console.error(`[Ethika35] Error fetching tenant "${slug}":`, err);
+    console.error(`[Ethika35] ❌ Error fetching tenant "${slug}":`, err);
     return null;
   }
 }
@@ -67,8 +86,13 @@ export default async function EthikaCustomerPortal({
   const tenant = await getTenantConfig(slug);
 
   // Módulo deshabilitado o tenant inexistente → 404 nativo de Next.js
-  if (!tenant || tenant.modules?.ethika35_enabled === false) {
-    notFound(); // Renderiza app/not-found.tsx — no leaks info de existencia del tenant
+  if (!tenant) {
+    console.error(`[Ethika35] notFound — tenant null para slug="${slug}"`);
+    notFound();
+  }
+  if (tenant.modules?.ethika35_enabled === false) {
+    console.warn(`[Ethika35] notFound — ethika35_enabled=false para slug="${slug}"`);
+    notFound();
   }
 
   const { legal_name, primary_color = '1A1A2E', secondary_color = 'C41E3A' } = tenant;
