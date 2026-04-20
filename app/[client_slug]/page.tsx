@@ -1,130 +1,372 @@
-// 1. SSR PURO: Crítico para la arquitectura Multi-Tenant
+// app/[client_slug]/page.tsx
+// CRÍTICO: SSR puro. Sin prefijo NEXT_PUBLIC_ — esta URL NUNCA debe exponerse al cliente.
 export const dynamic = 'force-dynamic';
 
-import React from 'react';
+import React, { Suspense } from 'react';
+import { notFound } from 'next/navigation';
 
-const LAMBDA_URL = process.env.NEXT_PUBLIC_TENANT_API_URL;
-const STATIC_PICTURES_PATH = '/pictures'; 
+// ─── TYPES ────────────────────────────────────────────────────────────────────
 
-async function getTenantConfig(slug: string) {
-  if (slug.includes('.')) return null;
+interface TenantConfig {
+  legal_name: string;
+  primary_color?: string;   // Hex sin #, ej: "1A2B6D"
+  secondary_color?: string;
+  modules?: {
+    ethika35_enabled?: boolean;
+  };
+}
+
+// ─── DATA LAYER ───────────────────────────────────────────────────────────────
+
+async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
+  // Sanitización defensiva: slugs no deben contener puntos (dominio ≠ slug)
+  if (!slug || slug.includes('.') || slug.length > 64) return null;
+
+  const lambdaUrl = process.env.TENANT_API_URL; // ⚠️ SIN NEXT_PUBLIC_ — servidor only
+  if (!lambdaUrl) {
+    console.error('[Ethika35] TENANT_API_URL no configurada en environment');
+    return null;
+  }
+
   try {
-    const cleanUrl = LAMBDA_URL?.trim().replace(/\/$/, "");
-    const fullIdentifier = `TENANT#${slug.toLowerCase()}`;
-    const res = await fetch(`${cleanUrl}/?slug=${encodeURIComponent(fullIdentifier)}`, { cache: 'no-store' });
+    const endpoint = `${lambdaUrl.trim().replace(/\/$/, '')}/?slug=${encodeURIComponent(`TENANT#${slug.toLowerCase()}`)}`;
+    const res = await fetch(endpoint, {
+      cache: 'no-store',
+      next: { revalidate: 0 },
+      signal: AbortSignal.timeout(5000), // Timeout de 5s — no bloquear indefinidamente
+    });
     if (!res.ok) return null;
-    return await res.json();
-  } catch (error) {
+    return (await res.json()) as TenantConfig;
+  } catch (err) {
+    console.error(`[Ethika35] Error fetching tenant "${slug}":`, err);
     return null;
   }
 }
 
-export default async function EthikaCustomerPortal({ params }: { params: Promise<{ client_slug: string }> }) {
-  const resolvedParams = await params;
-  const slug = resolvedParams.client_slug;
+// ─── REPORT CATEGORIES ────────────────────────────────────────────────────────
+
+const REPORT_CATEGORIES = [
+  { label: 'Acoso Laboral', icon: '⚠' },
+  { label: 'Acoso Sexual', icon: '🛑' },
+  { label: 'Sobornos / Corrupción', icon: '⚖' },
+  { label: 'Robo o Fraude', icon: '🔒' },
+  { label: 'Conflicto de Intereses', icon: '⚡' },
+  { label: 'Maltrato / NOM-035', icon: '📋' },
+  { label: 'Discriminación', icon: '🤝' },
+  { label: 'Incumplimiento de Políticas', icon: '📌' },
+] as const;
+
+// ─── PAGE COMPONENT ───────────────────────────────────────────────────────────
+
+export default async function EthikaCustomerPortal({
+  params,
+}: {
+  params: Promise<{ client_slug: string }>;
+}) {
+  const { client_slug: slug } = await params;
   const tenant = await getTenantConfig(slug);
 
+  // Módulo deshabilitado o tenant inexistente → 404 nativo de Next.js
   if (!tenant || tenant.modules?.ethika35_enabled === false) {
-    return <div className="p-20 text-center font-sans text-slate-400">Portal no disponible para {slug}</div>;
+    notFound(); // Renderiza app/not-found.tsx — no leaks info de existencia del tenant
   }
 
-  const { legal_name } = tenant;
-  // URLs de activos (Case sensitive según tu captura: Logo_Ethika35.png)
-  const clientLogoUrl = `${STATIC_PICTURES_PATH}/${slug}_logo.png`;
-  const ethikaLogoUrl = `${STATIC_PICTURES_PATH}/Logo_Ethika35.png`;
-  const konfidenteLogoUrl = `${STATIC_PICTURES_PATH}/Logo_Konfidente.png`;
-  const reportUrl = `https://ethika35.factorintegracion.net/test?slug=${slug}`;
+  const { legal_name, primary_color = '1A1A2E', secondary_color = 'C41E3A' } = tenant;
+
+  // CSS Custom Properties inyectadas desde la DB — colores dinámicos por tenant
+  const tenantStyles = {
+    '--color-brand': `#${primary_color}`,
+    '--color-accent': `#${secondary_color}`,
+  } as React.CSSProperties;
+
+  const slugLower = slug.toLowerCase();
+  const reportUrl = `https://ethika35.factorintegracion.net/test?slug=${encodeURIComponent(slugLower)}`;
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
-      
-      {/* HEADER ARMÓNICO (3 SECCIONES) */}
-      <header className="w-full bg-white border-b-2 border-slate-200 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-6">
-          
-          {/* 1. SECCIÓN IZQUIERDA: Logo Cliente */}
-          <div className="w-1/3 flex justify-start">
-            <img src={clientLogoUrl} alt={legal_name} className="h-10 md:h-12 w-auto object-contain max-w-[150px]" />
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        ...tenantStyles,
+        fontFamily: "'DM Sans', 'Segoe UI', system-ui, sans-serif",
+        background: '#F8F7F4',
+      }}
+    >
+      {/* ── GOOGLE FONTS INLINE (sin _document.tsx externo) ─────────────────── */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap');
+
+        /* Grain texture sobre el hero */
+        .grain::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+          pointer-events: none;
+          z-index: 1;
+        }
+        .grain > * { position: relative; z-index: 2; }
+
+        @keyframes pulse-ring {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(196, 30, 58, 0.4); }
+          50% { box-shadow: 0 0 0 12px rgba(196, 30, 58, 0); }
+        }
+        .btn-alert { animation: pulse-ring 2.5s ease-in-out infinite; }
+        
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+        .category-card:hover .category-dot {
+          transform: scale(1.5);
+          background-color: var(--color-accent);
+        }
+      `}</style>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          HEADER — 3 columnas rígidas, sticky, sombra editorial
+      ══════════════════════════════════════════════════════════════════════ */}
+      <header
+        className="w-full sticky top-0 z-50 bg-white"
+        style={{ borderBottom: '2px solid #E8E4DF', boxShadow: '0 2px 20px rgba(0,0,0,0.06)' }}
+      >
+        <div
+          className="w-full mx-auto grid h-[72px] px-6"
+          style={{ maxWidth: '1280px', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center' }}
+        >
+          {/* Columna 1: Logo cliente */}
+          <div className="flex items-center justify-start">
+            <img
+              src={`/pictures/${slugLower}_logo.png`}
+              alt={legal_name}
+              className="h-9 w-auto object-contain"
+              style={{ maxWidth: '140px' }}
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
           </div>
 
-          {/* 2. SECCIÓN CENTRAL: Botón Alerta (Rojo/Amarillo) */}
-          <div className="w-1/3 flex justify-center">
-            <a 
+          {/* Columna 2: CTA Central — elemento de mayor peso visual */}
+          <div className="flex items-center justify-center">
+            <a
               href={reportUrl}
-              className="relative inline-flex items-center justify-center px-6 py-3 font-black uppercase tracking-tighter text-black bg-yellow-400 rounded-lg group overflow-hidden shadow-xl border-b-4 border-red-700 active:border-b-0 active:translate-y-1 transition-all"
-              style={{ background: 'linear-gradient(to right, #FACC15, #F87171)' }}
+              className="btn-alert relative inline-flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-white text-sm tracking-wide uppercase transition-all duration-150 hover:brightness-110 active:scale-95"
+              style={{
+                background: 'linear-gradient(135deg, #F59E0B 0%, #DC2626 100%)',
+                letterSpacing: '0.08em',
+                whiteSpace: 'nowrap',
+              }}
             >
-              <span className="relative">INICIAR DENUNCIA</span>
+              <span style={{ fontSize: '16px' }}>⚑</span>
+              INICIAR DENUNCIA
             </a>
           </div>
 
-          {/* 3. SECCIÓN DERECHA: Logo Ethika35 */}
-          <div className="w-1/3 flex justify-end">
-            <img src={ethikaLogoUrl} alt="Ethika35" className="h-10 md:h-12 w-auto object-contain" />
+          {/* Columna 3: Logo Ethika35 */}
+          <div className="flex items-center justify-end">
+            <img
+              src="/pictures/Logo_Ethika35.png"
+              alt="Ethika35"
+              className="h-9 w-auto object-contain"
+              style={{ maxWidth: '130px' }}
+            />
           </div>
         </div>
       </header>
 
-      {/* CUERPO OPERATIVO */}
-      <main className="flex-grow max-w-3xl mx-auto w-full px-6 py-12">
-        
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-          {/* Alerta Visual Superior */}
-          <div className="h-3 w-full bg-gradient-to-right from-red-600 via-yellow-500 to-red-600"></div>
-          
-          <div className="p-8 md:p-12">
-            <h1 className="text-4xl font-black text-slate-900 mb-6 leading-tight border-b-2 border-slate-100 pb-4">
-              Espacio Seguro y Confidencial
-            </h1>
-            
-            <p className="text-xl text-slate-700 mb-8 leading-relaxed">
-              En <strong className="text-black">{legal_name}</strong>, tu integridad es lo primero. Este canal <strong>NO es manejado internamente</strong>, sino por <strong className="text-red-700">BAHUMANA</strong>, un tercero independiente especializado en cumplimiento y ética.
-            </p>
-
-            <div className="bg-slate-900 text-yellow-400 p-6 rounded-xl mb-10 shadow-inner italic text-lg leading-relaxed border-l-8 border-red-600">
-              "Todas las denuncias dejan evidencia legal ante el tercero para asegurar que se investiguen justamente, eliminando cualquier posibilidad de represalia o alteración de información."
-            </div>
-
-            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-              <span className="text-red-600">●</span> OPCIONES DE REPORTE:
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
-              {[
-                "Acoso Laboral", "Acoso Sexual", "Sobornos / Corrupción", "Robo o Fraude", 
-                "Conflicto de Intereses", "Maltrato / NOM-035", "Discriminación", "Incumplimiento de Políticas"
-              ].map((item) => (
-                <div key={item} className="flex items-center p-4 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-bold hover:bg-red-50 transition-colors">
-                  <div className="w-2 h-2 rounded-full bg-red-600 mr-3"></div>
-                  {item}
-                </div>
-              ))}
-            </div>
-
-            <a 
-              href={reportUrl}
-              className="block w-full text-center py-6 rounded-xl text-white font-black text-2xl shadow-2xl transition-all hover:brightness-110 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #B91C1C 0%, #DC2626 100%)' }}
-            >
-              GENERAR REPORTE SEGURO
-            </a>
+      {/* ══════════════════════════════════════════════════════════════════════
+          HERO — Declaración de seguridad, inmersiva y de alto impacto
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section
+        className="grain relative py-16 px-6"
+        style={{
+          background: 'linear-gradient(160deg, #1A1A2E 0%, #16213E 60%, #0F3460 100%)',
+        }}
+      >
+        <div className="max-w-3xl mx-auto text-center">
+          <div
+            className="animate-slide-up inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
+            style={{ background: 'rgba(196,30,58,0.15)', color: '#F87171', border: '1px solid rgba(248,113,113,0.3)' }}
+          >
+            <span className="w-2 h-2 rounded-full bg-red-400 inline-block" style={{ animation: 'pulse-ring 1.5s ease-in-out infinite' }} />
+            Canal Oficial de Reportes — {legal_name}
           </div>
+
+          <h1
+            className="animate-slide-up delay-1"
+            style={{
+              fontFamily: "'DM Serif Display', Georgia, serif",
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              color: '#FAFAF8',
+              lineHeight: 1.15,
+              marginBottom: '1.5rem',
+            }}
+          >
+            Tu voz está protegida.<br />
+            <span style={{ color: '#FBBF24' }}>Siempre.</span>
+          </h1>
+
+          <p
+            className="animate-slide-up delay-2 text-lg"
+            style={{ color: '#94A3B8', lineHeight: 1.8, maxWidth: '600px', margin: '0 auto 2.5rem' }}
+          >
+            Este canal <strong style={{ color: '#F1F5F9' }}>no lo opera {legal_name}</strong>. Es administrado exclusivamente por{' '}
+            <strong style={{ color: '#FBBF24' }}>BAHUMANA</strong>, un tercero independiente. Ningún directivo
+            puede ver, modificar o bloquear tu reporte.
+          </p>
+
+          <a
+            href={reportUrl}
+            className="animate-slide-up delay-3 btn-alert inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-bold text-white text-lg transition-all duration-150 hover:brightness-110 active:scale-95"
+            style={{
+              background: 'linear-gradient(135deg, #B91C1C 0%, #DC2626 50%, #EF4444 100%)',
+              boxShadow: '0 8px 32px rgba(220,38,38,0.4)',
+            }}
+          >
+            <span style={{ fontSize: '24px' }}>🔒</span>
+            GENERAR REPORTE SEGURO Y CONFIDENCIAL
+          </a>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          GARANTÍAS — Tres pilares de confianza
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-12 px-6 bg-white" style={{ borderBottom: '1px solid #E8E4DF' }}>
+        <div
+          className="max-w-3xl mx-auto grid gap-6"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}
+        >
+          {[
+            {
+              icon: '🛡',
+              title: 'Evidencia Legal Blindada',
+              desc: 'Cada reporte genera un registro legal con timestamp que BAHUMANA resguarda. Imposible de alterar o eliminar.',
+            },
+            {
+              icon: '👤',
+              title: 'Anonimato Garantizado',
+              desc: 'Puedes reportar sin identificarte. Tu identidad nunca será revelada sin tu consentimiento explícito.',
+            },
+            {
+              icon: '⚖',
+              title: 'Cero Represalias',
+              desc: 'La Ley Federal del Trabajo y la NOM-035 te protegen. BAHUMANA monitorea el caso hasta su resolución.',
+            },
+          ].map((item) => (
+            <div
+              key={item.title}
+              className="p-6 rounded-2xl"
+              style={{ background: '#F8F7F4', border: '1px solid #E8E4DF' }}
+            >
+              <div className="text-3xl mb-3">{item.icon}</div>
+              <h3 className="font-bold text-slate-900 mb-2" style={{ fontSize: '1rem' }}>
+                {item.title}
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          CATEGORÍAS DE DENUNCIA
+      ══════════════════════════════════════════════════════════════════════ */}
+      <main className="flex-grow py-16 px-6" style={{ background: '#F8F7F4' }}>
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
+            <div
+              className="w-1 h-8 rounded-full"
+              style={{ background: 'linear-gradient(to bottom, #F59E0B, #DC2626)' }}
+            />
+            <h2 className="font-bold text-slate-900 text-xl tracking-tight">
+              ¿Qué deseas reportar?
+            </h2>
+          </div>
+
+          <div
+            className="grid gap-3 mb-12"
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}
+          >
+            {REPORT_CATEGORIES.map(({ label, icon }) => (
+              <a
+                key={label}
+                href={`${reportUrl}&category=${encodeURIComponent(label)}`}
+                className="category-card flex items-center gap-3 p-4 rounded-xl bg-white transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group"
+                style={{ border: '1px solid #E8E4DF', textDecoration: 'none' }}
+              >
+                <div
+                  className="category-dot w-2 h-2 rounded-full flex-shrink-0 transition-all duration-200"
+                  style={{ background: '#DC2626' }}
+                />
+                <span className="text-slate-700 font-medium text-sm group-hover:text-slate-900">
+                  {label}
+                </span>
+                <span className="ml-auto text-slate-300 text-xs group-hover:text-slate-400">→</span>
+              </a>
+            ))}
+          </div>
+
+          {/* Quote de autoridad legal */}
+          <blockquote
+            className="relative p-8 rounded-2xl overflow-hidden"
+            style={{ background: '#1A1A2E', borderLeft: '4px solid #F59E0B' }}
+          >
+            <div
+              className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-5"
+              style={{ background: '#F59E0B', transform: 'translate(30%, -30%)' }}
+            />
+            <p className="text-white text-lg leading-relaxed italic mb-4" style={{ fontFamily: "'DM Serif Display', serif" }}>
+              "Todas las denuncias generan evidencia legal ante BAHUMANA, garantizando investigación justa
+              y eliminando cualquier posibilidad de represalia o alteración de información."
+            </p>
+            <cite className="text-yellow-400 text-xs font-bold tracking-widest uppercase not-italic">
+              — Operación Independiente BAHUMANA para {legal_name}
+            </cite>
+          </blockquote>
         </div>
       </main>
 
-      {/* FOOTER FIRMA KONFIDENTE */}
-      <footer className="w-full py-12 bg-white border-t border-slate-200 text-center">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-4">
-          <img src={konfidenteLogoUrl} alt="Konfidente" className="h-4 w-auto opacity-40 grayscale" />
-          <a href="https://ethika35.com" className="text-xs font-bold text-slate-400 hover:text-red-600 transition-colors tracking-widest uppercase">
-            Regresar a ethika35.com
-          </a>
-          <p className="text-[10px] text-slate-400 mt-2">
+      {/* ══════════════════════════════════════════════════════════════════════
+          FOOTER
+      ══════════════════════════════════════════════════════════════════════ */}
+      <footer
+        className="py-10 px-6 text-center"
+        style={{ background: 'white', borderTop: '1px solid #E8E4DF' }}
+      >
+        <div className="max-w-3xl mx-auto flex flex-col items-center gap-3">
+          <img
+            src="/pictures/Logo_Konfidente.png"
+            alt="Konfidente"
+            className="h-5 w-auto grayscale opacity-30"
+          />
+          <div className="flex items-center gap-4 text-xs text-slate-400">
+            <a
+              href="https://ethika35.com"
+              className="hover:text-red-600 transition-colors font-medium tracking-widest uppercase"
+            >
+              ethika35.com
+            </a>
+            <span>·</span>
+            <a
+              href="https://konfidente.com"
+              className="hover:text-slate-600 transition-colors tracking-widest uppercase"
+            >
+              konfidente.com
+            </a>
+          </div>
+          <p className="text-[11px] text-slate-300 mt-1">
             © 2026 Operado con absoluta confidencialidad por BAHUMANA para {legal_name}.
+            <br />
+            Cumplimiento NOM-035-STPS-2018 · Ley Federal del Trabajo.
           </p>
         </div>
       </footer>
-
     </div>
   );
 }
