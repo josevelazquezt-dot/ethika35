@@ -266,7 +266,7 @@ export default function MarketingPage() {
               <p>Un canal robusto y completamente independiente para reportar conductas poco éticas o ilegales. Protegemos a tu empresa y a tu gente con el más alto estándar de confidencialidad.</p>
               <a href="https://ethika35.factorintegracion.net/test" target="_blank" rel="noopener noreferrer" className="btn-primary">Iniciar Reporte Confidencial</a>
               <br /><br />
-              <a href="/faq.html" className="btn-outline">¿Cómo funciona? Ver Preguntas Frecuentes</a>
+              <a href="/faq" className="btn-outline">¿Cómo funciona? Ver Preguntas Frecuentes</a>
           </div>
       </section>
 
