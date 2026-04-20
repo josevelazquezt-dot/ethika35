@@ -33,7 +33,11 @@ async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
     return null;
   }
 
-  const endpoint = `${lambdaUrl.trim().replace(/\/$/, '')}/?slug=${encodeURIComponent(`TENANT#${slug.toLowerCase()}`)}`;
+  //const endpoint = `${lambdaUrl.trim().replace(/\/$/, '')}/?slug=${encodeURIComponent(`TENANT#${slug.toLowerCase()}`)}`;
+  // CAMBIO: Asegurar la barra diagonal antes del signo de interrogación
+  const endpoint = `${base}/?slug=${encodeURIComponent("TENANT#" + slug.toLowerCase())}`;
+
+  
   console.log(`[Ethika35] Fetching tenant: ${endpoint}`);
 
   try {
