@@ -187,7 +187,7 @@ export default function FAQPage() {
       <header>
           <div className="container header-content">
               <a href="/">
-                  <img src="/pictures/logo_ethika35.png" alt="Ethika35 Logo" className="logo-img" />
+                  <img src="/pictures/Logo_Ethika35.png" alt="Ethika35 Logo" className="logo-img" />
               </a>
               <div className="nav-links">
                   <a href="/">Inicio</a>
