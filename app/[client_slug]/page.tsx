@@ -19,49 +19,57 @@ interface TenantConfig {
 // ─── DATA LAYER ───────────────────────────────────────────────────────────────
 
 async function getTenantConfig(slug: string): Promise<TenantConfig | null> {
-  // Sanitización defensiva: slugs no deben contener puntos (dominio ≠ slug)
-  if (!slug || slug.includes('.') || slug.length > 64) return null;
+  if (!slug || slug.includes('.') || slug.length > 64) {
+    console.log(`[Ethika35] BLOCKED slug="${slug}"`);
+    return null;
+  }
 
-  // FALLBACK: acepta ambos nombres de variable para no romper deployments existentes.
-  // NEXT_PUBLIC_ expone la URL al cliente — migrar a TENANT_API_URL cuando sea posible.
   const lambdaUrl =
     process.env.TENANT_API_URL ||
     process.env.NEXT_PUBLIC_TENANT_API_URL;
 
   if (!lambdaUrl) {
-    console.error('[Ethika35] ❌ Ninguna variable de entorno encontrada: TENANT_API_URL ni NEXT_PUBLIC_TENANT_API_URL');
+    console.error('[Ethika35] FATAL: No env TENANT_API_URL ni NEXT_PUBLIC_TENANT_API_URL');
     return null;
   }
 
-  //const endpoint = `${lambdaUrl.trim().replace(/\/$/, '')}/?slug=${encodeURIComponent(`TENANT#${slug.toLowerCase()}`)}`;
-  // CAMBIO: Asegurar la barra diagonal antes del signo de interrogación
-  const endpoint = `${base}/?slug=${encodeURIComponent("TENANT#" + slug.toLowerCase())}`;
-
+  // 1. Definimos la base correctamente
+  const base = lambdaUrl.trim().replace(/\/+$/, "");
   
-  console.log(`[Ethika35] Fetching tenant: ${endpoint}`);
+  // 2. Construimos el endpoint con la diagonal necesaria para el Proxy de la Lambda
+  const endpoint = `${base}/?slug=${encodeURIComponent("TENANT#" + slug.toLowerCase())}`;
+  
+  console.log(`[Ethika35] FETCH → ${endpoint}`);
 
   try {
-    // AbortSignal.timeout() requiere Node 17.3+. Usamos el patrón compatible universalmente.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-    const res = await fetch(endpoint, {
-      cache: 'no-store',
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
+    const timer = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(endpoint, { cache: 'no-store', signal: controller.signal });
+    clearTimeout(timer);
 
     if (!res.ok) {
-      console.error(`[Ethika35] Lambda respondió ${res.status} para slug "${slug}"`);
+      console.error(`[Ethika35] HTTP ERROR ${res.status} en ${slug}`);
       return null;
     }
 
-    const data = await res.json();
-    console.log(`[Ethika35] ✅ Tenant encontrado: ${data?.legal_name ?? 'sin nombre'}`);
-    return data as TenantConfig;
-  } catch (err) {
-    console.error(`[Ethika35] ❌ Error fetching tenant "${slug}":`, err);
+    const raw = await res.text();
+    // Log para debuggear en CloudWatch qué está regresando la Lambda
+    console.log(`[Ethika35] RAW RESPONSE: ${raw.substring(0, 200)}`);
+    
+    const data = JSON.parse(raw);
+
+    // Lógica de "Unwrap" para extraer el registro de DynamoDB
+    const item = data.Item || data.body?.Item || data.data || data;
+
+    if (!item || !item.branding) {
+      console.warn(`[Ethika35] No se encontró branding para: ${slug}`);
+      return null;
+    }
+
+    return item as TenantConfig;
+
+  } catch (err: any) {
+    console.error(`[Ethika35] FETCH FAILED para ${slug}:`, err.message);
     return null;
   }
 }
