@@ -72,8 +72,8 @@ export default async function EthikaCustomerPortal({ params }: { params: Promise
 
   // URLs de activos
   const clientLogoUrl = `${STATIC_PICTURES_PATH}/${slug}_logo.png`;
-  const ethikaLogoUrl = `${STATIC_PICTURES_PATH}/logo_ethika35.png`;
-  const konfidenteLogoUrl = `${STATIC_PICTURES_PATH}/logo_konfidente.png`;
+  const ethikaLogoUrl = `${STATIC_PICTURES_PATH}/Logo_Ethika35.png`;
+  const konfidenteLogoUrl = `${STATIC_PICTURES_PATH}/Logo_Konfidente.png`;
   const reportUrl = `https://ethika35.factorintegracion.net/test?slug=${slug}`;
 
   return (
